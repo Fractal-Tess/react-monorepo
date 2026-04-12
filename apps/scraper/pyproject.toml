@@ -1,13 +1,16 @@
 [project]
-name = "scraper-crawl4ai-core"
+name = "scraper"
 version = "0.1.0"
-description = "Shared Crawl4AI helpers for selector-based and LLM-assisted scraping"
+description = "Crawl4AI scraper app for structured and LLM-assisted extraction"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
   "crawl4ai>=0.8.0",
   "litellm>=1.79.0",
 ]
+
+[project.scripts]
+scraper = "scraper.main:main"
 
 [dependency-groups]
 dev = [
@@ -20,7 +23,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/scraper_crawl4ai_core"]
+packages = ["src/scraper"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

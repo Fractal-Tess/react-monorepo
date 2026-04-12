@@ -2,7 +2,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from scraper_crawl4ai_core.crawler import (
+from scraper.crawler import (
     crawl_markdown,
     extract_with_css,
     extract_with_llm,

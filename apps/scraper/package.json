@@ -1,0 +1,14 @@
+{
+  "name": "@workspace/scraper",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "infisical run -- uv run --project . python -m scraper.main markdown https://example.com",
+    "start": "infisical run -- uv run --project . python -m scraper.main",
+    "test": "infisical run -- uv run --project . --group dev python -m pytest tests",
+    "typecheck": "infisical run -- uv run --project . python -m compileall src",
+    "markdown": "infisical run -- uv run --project . python -m scraper.main markdown",
+    "css": "infisical run -- uv run --project . python -m scraper.main css",
+    "llm": "infisical run -- uv run --project . python -m scraper.main llm"
+  }
+}

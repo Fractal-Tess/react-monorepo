@@ -2163,35 +2163,18 @@ wheels = [
 ]
 
 [[package]]
-name = "scraper-crawl4ai"
+name = "scraper"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "scraper-crawl4ai-core" },
+    { name = "crawl4ai" },
+    { name = "litellm" },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "scraper-crawl4ai-core", directory = "../../packages/scraper-crawl4ai-core" }]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pytest", specifier = ">=8.4.2" },
-    { name = "pytest-asyncio", specifier = ">=1.2.0" },
-]
-
-[[package]]
-name = "scraper-crawl4ai-core"
-version = "0.1.0"
-source = { directory = "../../packages/scraper-crawl4ai-core" }
-dependencies = [
-    { name = "crawl4ai" },
-    { name = "litellm" },
 ]
 
 [package.metadata]

@@ -6,7 +6,7 @@ import json
 from dataclasses import asdict, is_dataclass
 from pathlib import Path
 
-from scraper_crawl4ai_core import crawl_markdown, extract_with_css, extract_with_llm
+from scraper.crawler import crawl_markdown, extract_with_css, extract_with_llm
 
 
 def build_parser() -> argparse.ArgumentParser:
