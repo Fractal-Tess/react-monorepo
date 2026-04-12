@@ -1,13 +1,12 @@
-# Convex + TypeScript + ESLint
+# Convex + TypeScript
 
-This template provides a minimal setup to get Convex working, with TypeScript
-and ESLint.
+This package provides a minimal Convex workspace setup with TypeScript.
 
-Start by editing `convex/myFunctions.ts` and interact with your backend from the
+Start by editing `convex/messages.ts` and interact with your backend from the
 dashboard or via the CLI:
 
 ```sh
-npx convex run myFunctions:myQuery '{"first": 1, "second": "Hello"}'
+npx convex run messages:list '{}'
 ```
 
 See Convex docs at https://docs.convex.dev/home

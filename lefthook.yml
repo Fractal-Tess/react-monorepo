@@ -1,0 +1,13 @@
+pre-commit:
+  jobs:
+    - name: ultracite
+      glob:
+        - "packages/convex/**/*.js"
+        - "packages/convex/**/*.jsx"
+        - "packages/convex/**/*.ts"
+        - "packages/convex/**/*.tsx"
+        - "packages/convex/**/*.json"
+        - "packages/convex/**/*.jsonc"
+        - "packages/convex/**/*.css"
+      run: bun x ultracite fix packages/convex
+      stage_fixed: true
