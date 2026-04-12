@@ -1,21 +1,18 @@
 {
-  "name": "@workspace/service",
+  "name": "@workspace/shared",
   "version": "0.0.0",
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch index.ts",
-    "start": "bun run index.ts",
     "test": "bun test",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@workspace/example-lib": "workspace:*"
+  "exports": {
+    ".": "./src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@workspace/typescript-config": "workspace:*",
     "typescript": "^6.0.2"
-  },
-  "module": "index.ts"
+  }
 }

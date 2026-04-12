@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 
 import { describeServiceStatus, getWelcomeMessage, toTitleCase } from "./index.js"
 
-describe("example-lib", () => {
+describe("shared", () => {
   test("converts strings to title case", () => {
     expect(toTitleCase("nextjs web")).toBe("Nextjs Web")
   })
@@ -11,10 +11,10 @@ describe("example-lib", () => {
     expect(getWelcomeMessage("web")).toContain("Web")
   })
 
-  test("describes service status", () => {
+  test("describes worker status", () => {
     expect(
       describeServiceStatus({
-        appName: "service",
+        appName: "worker",
         environment: "test",
         healthy: false,
       })

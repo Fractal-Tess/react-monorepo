@@ -1,0 +1,23 @@
+{
+  "name": "@workspace/worker",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "infisical run -- bun --watch index.ts",
+    "start": "infisical run -- bun run index.ts",
+    "test": "infisical run -- bun test",
+    "typecheck": "infisical run -- tsc --noEmit"
+  },
+  "dependencies": {
+    "@workspace/shared": "workspace:*",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/pg": "^8.15.6",
+    "@workspace/typescript-config": "workspace:*",
+    "typescript": "^6.0.2"
+  },
+  "module": "index.ts"
+}

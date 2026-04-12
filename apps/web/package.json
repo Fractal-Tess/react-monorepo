@@ -4,15 +4,15 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "dev": "infisical run -- next dev --turbopack",
+    "build": "infisical run -- next build",
+    "start": "infisical run -- next start",
+    "test": "infisical run -- vitest run",
+    "typecheck": "infisical run -- tsc --noEmit"
   },
   "dependencies": {
     "@workspace/convex": "workspace:*",
-    "@workspace/example-lib": "workspace:*",
+    "@workspace/shared": "workspace:*",
     "@workspace/ui": "workspace:*",
     "convex": "^1.35.1",
     "lucide-react": "^1.8.0",

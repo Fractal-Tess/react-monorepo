@@ -1,4 +1,4 @@
-import { getWelcomeMessage, toTitleCase } from "@workspace/example-lib";
+import { getWelcomeMessage, toTitleCase } from "@workspace/shared";
 import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";

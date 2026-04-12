@@ -3,20 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "convex dev",
-    "predev": "convex dev --until-success && convex dashboard",
-    "logs": "convex logs",
+    "dev": "infisical run -- convex dev",
+    "predev": "infisical run -- convex dev --until-success && infisical run -- convex dashboard",
+    "logs": "infisical run -- convex logs",
     "lint": "bunx ultracite check .",
     "format": "bunx ultracite fix .",
-    "test": "bun test",
-    "typecheck": "tsc --noEmit && tsc -p convex"
+    "test": "infisical run -- bun test",
+    "typecheck": "infisical run -- tsc --noEmit && infisical run -- tsc -p convex"
   },
   "exports": {
     "./api": "./api.ts",
     "./messages": "./messages.ts"
   },
   "dependencies": {
-    "@workspace/example-lib": "workspace:*",
+    "@workspace/shared": "workspace:*",
     "convex": "^1.35.1"
   },
   "devDependencies": {

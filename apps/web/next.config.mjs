@@ -8,7 +8,7 @@ const nextConfig = {
   turbopack: {
     root: repoRoot,
   },
-  transpilePackages: ["@workspace/ui"],
+  transpilePackages: ["@workspace/convex", "@workspace/shared", "@workspace/ui"],
 }
 
 export default nextConfig

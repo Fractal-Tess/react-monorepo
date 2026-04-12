@@ -1,18 +1,18 @@
 {
-  "name": "monorepo",
+  "name": "react-monorepo",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "infisical run -- turbo build",
     "check": "bunx ultracite check packages/convex",
-    "dev": "turbo dev",
+    "dev": "infisical run -- turbo dev",
     "doctor": "bunx ultracite doctor",
     "fix": "bunx ultracite fix packages/convex",
     "lint": "bun run check",
     "format": "bun run fix",
     "prepare": "bunx lefthook install",
-    "test": "turbo test",
-    "typecheck": "turbo typecheck"
+    "test": "infisical run -- turbo test",
+    "typecheck": "infisical run -- turbo typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",

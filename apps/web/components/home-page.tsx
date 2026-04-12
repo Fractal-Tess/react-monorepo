@@ -1,4 +1,4 @@
-import { getWelcomeMessage } from "@workspace/example-lib"
+import { getWelcomeMessage } from "@workspace/shared"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@workspace/ui/components/tooltip"
@@ -20,7 +20,7 @@ export function HomePage({ convexEnabled }: HomePageProps) {
           </CardHeader>
           <CardContent className="space-y-6">
             <p className="text-sm text-muted-foreground">
-              The Next.js app, Bun service, and Convex package all share the same example
+              The Next.js app, Bun worker, and Convex package all share the same
               library now.
             </p>
             <Tooltip>

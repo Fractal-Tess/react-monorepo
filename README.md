@@ -1,6 +1,8 @@
-# shadcn/ui monorepo template
+# react-monorepo
 
-This is a Next.js monorepo template with shadcn/ui.
+This is a monorepo with a Next.js app, Convex, a Bun worker app, a Crawl4AI scraper app, and shared workspace packages.
+
+The scraper direction in this repo is Crawl4AI. The older Firecrawl-based scraper path has been removed.
 
 ## Adding components
 

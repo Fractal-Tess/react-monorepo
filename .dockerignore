@@ -1,0 +1,16 @@
+.git
+.gitignore
+.next
+.turbo
+coverage
+dist
+node_modules
+apps/*/node_modules
+packages/*/node_modules
+apps/*/.next
+apps/*/.turbo
+packages/*/.turbo
+.infisical.json
+Dockerfile*
+docker-compose*.yml
+docker-compose*.yaml
