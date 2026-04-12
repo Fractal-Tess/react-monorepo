@@ -4,6 +4,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
+      "@workspace/convex/*": ["../../packages/convex/*"],
+      "@workspace/example-lib": ["../../packages/example-lib/src/index.ts"],
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [

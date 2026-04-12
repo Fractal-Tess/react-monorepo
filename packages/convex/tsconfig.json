@@ -1,0 +1,13 @@
+{
+  "extends": "@workspace/typescript-config/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+    "types": ["bun"],
+    "noEmit": true
+  },
+  "include": ["*.ts", "convex/**/*.ts"],
+  "exclude": ["convex/_generated"]
+}
