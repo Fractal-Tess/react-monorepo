@@ -1,9 +1,9 @@
 {
   "name": "@workspace/convex",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
-    "dev": "infisical run -- convex dev",
+    "dev": "infisical run -- convex dev --local",
     "predev": "infisical run -- convex dev --until-success && infisical run -- convex dashboard",
     "logs": "infisical run -- convex logs",
     "lint": "bunx ultracite check .",

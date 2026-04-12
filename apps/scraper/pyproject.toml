@@ -5,6 +5,7 @@ description = "Crawl4AI scraper app for structured and LLM-assisted extraction"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+  "convex>=0.7.0",
   "crawl4ai>=0.8.0",
   "litellm>=1.79.0",
 ]
