@@ -1,15 +1,19 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, test } from "bun:test";
 
-import { describeServiceStatus, getWelcomeMessage, toTitleCase } from "./index.js"
+import {
+  describeServiceStatus,
+  getWelcomeMessage,
+  toTitleCase,
+} from "./index.js";
 
 describe("shared", () => {
   test("converts strings to title case", () => {
-    expect(toTitleCase("nextjs web")).toBe("Nextjs Web")
-  })
+    expect(toTitleCase("nextjs web")).toBe("Nextjs Web");
+  });
 
   test("builds a welcome message", () => {
-    expect(getWelcomeMessage("web")).toContain("Web")
-  })
+    expect(getWelcomeMessage("web")).toContain("Web");
+  });
 
   test("describes worker status", () => {
     expect(
@@ -18,6 +22,6 @@ describe("shared", () => {
         environment: "test",
         healthy: false,
       })
-    ).toContain("degraded")
-  })
-})
+    ).toContain("degraded");
+  });
+});

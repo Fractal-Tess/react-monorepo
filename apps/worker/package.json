@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "infisical run --path=/worker -- bun --watch index.ts",
+    "lint": "bunx ultracite check .",
     "start": "infisical run --path=/worker -- bun run index.ts",
     "test": "infisical run --path=/worker -- bun test",
     "typecheck": "infisical run --path=/worker -- tsc --noEmit"

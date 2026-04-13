@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "lint": "bunx ultracite check src postcss.config.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

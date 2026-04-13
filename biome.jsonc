@@ -6,6 +6,9 @@
     "ultracite/biome/react",
     "ultracite/biome/vitest"
   ],
+  "javascript": {
+    "globals": ["Bun"]
+  },
   "linter": {
     "rules": {
       "style": {

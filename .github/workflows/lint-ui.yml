@@ -1,0 +1,26 @@
+name: Lint UI
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/lint-ui.yml"
+      - "biome.jsonc"
+      - "bun.lock"
+      - "package.json"
+      - "packages/ui/**"
+  push:
+    paths:
+      - ".github/workflows/lint-ui.yml"
+      - "biome.jsonc"
+      - "bun.lock"
+      - "package.json"
+      - "packages/ui/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run --cwd packages/ui lint

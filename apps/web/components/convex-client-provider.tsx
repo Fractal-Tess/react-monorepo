@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { ConvexProvider, ConvexReactClient } from "convex/react"
-import { type ReactNode, useMemo } from "react"
+import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { type ReactNode, useMemo } from "react";
 
 type ConvexClientProviderProps = {
-  children: ReactNode
-  deploymentUrl?: string
-}
+  children: ReactNode;
+  deploymentUrl?: string;
+};
 
 export function ConvexClientProvider({
   children,
@@ -14,15 +14,15 @@ export function ConvexClientProvider({
 }: ConvexClientProviderProps) {
   const client = useMemo(() => {
     if (!deploymentUrl) {
-      return null
+      return null;
     }
 
-    return new ConvexReactClient(deploymentUrl)
-  }, [deploymentUrl])
+    return new ConvexReactClient(deploymentUrl);
+  }, [deploymentUrl]);
 
   if (!client) {
-    return <>{children}</>
+    return <>{children}</>;
   }
 
-  return <ConvexProvider client={client}>{children}</ConvexProvider>
+  return <ConvexProvider client={client}>{children}</ConvexProvider>;
 }

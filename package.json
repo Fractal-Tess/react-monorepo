@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "infisical run -- turbo build",
-    "check": "bunx ultracite check packages/convex",
+    "check": "turbo run lint",
     "dev": "infisical run -- turbo dev",
     "doctor": "bunx ultracite doctor",
     "fix": "bunx ultracite fix packages/convex",

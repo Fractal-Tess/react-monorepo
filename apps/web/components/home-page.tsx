@@ -1,13 +1,24 @@
-import { getWelcomeMessage } from "@workspace/shared"
+import { getWelcomeMessage } from "@workspace/shared";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@workspace/ui/components/tooltip"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@workspace/ui/components/tooltip";
 
-import { ConvexDemo } from "./convex-demo"
+import { ConvexDemo } from "./convex-demo";
 
 type HomePageProps = {
-  convexEnabled: boolean
-}
+  convexEnabled: boolean;
+};
 
 export function HomePage({ convexEnabled }: HomePageProps) {
   return (
@@ -19,16 +30,17 @@ export function HomePage({ convexEnabled }: HomePageProps) {
             <CardDescription>{getWelcomeMessage("web app")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               The Next.js app, Bun worker, and Convex package all share the same
               library now.
             </p>
             <Tooltip>
-              <TooltipTrigger className="text-sm font-medium underline underline-offset-4">
+              <TooltipTrigger className="font-medium text-sm underline underline-offset-4">
                 Shared package wiring
               </TooltipTrigger>
               <TooltipContent>
-                Imports resolve through workspace packages instead of app-local copies.
+                Imports resolve through workspace packages instead of app-local
+                copies.
               </TooltipContent>
             </Tooltip>
             <ConvexDemo enabled={convexEnabled} />
@@ -36,5 +48,5 @@ export function HomePage({ convexEnabled }: HomePageProps) {
         </Card>
       </main>
     </TooltipProvider>
-  )
+  );
 }

@@ -17,6 +17,7 @@ scraper = "scraper.main:main"
 dev = [
   "pytest>=8.4.2",
   "pytest-asyncio>=1.2.0",
+  "ruff>=0.13.0",
 ]
 
 [build-system]

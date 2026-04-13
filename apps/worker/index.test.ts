@@ -1,7 +1,7 @@
-import { describe, expect, test } from "bun:test"
+import { describe, expect, test } from "bun:test";
 
-import { describeServiceStatus } from "@workspace/shared"
-import { buildHealthPayload, getServicePort } from "./index"
+import { describeServiceStatus } from "@workspace/shared";
+import { buildHealthPayload, getServicePort } from "./index";
 
 describe("worker", () => {
   test("formats a healthy worker message", () => {
@@ -11,12 +11,12 @@ describe("worker", () => {
         environment: "test",
         healthy: true,
       })
-    ).toContain("Worker")
-  })
+    ).toContain("Worker");
+  });
 
   test("uses the default worker port when no env is set", () => {
-    expect(getServicePort(undefined)).toBe(4000)
-  })
+    expect(getServicePort(undefined)).toBe(4000);
+  });
 
   test("marks the worker healthy when postgres is not configured", () => {
     expect(
@@ -35,6 +35,10 @@ describe("worker", () => {
         connected: false,
         seededCustomers: 0,
       },
-    })
-  })
-})
+    });
+  });
+
+  test("uses the configured worker port", () => {
+    expect(getServicePort("4123")).toBe(4123);
+  });
+});

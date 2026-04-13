@@ -1,29 +1,35 @@
-import { Geist_Mono, Inter } from "next/font/google"
+import { Geist_Mono, Inter } from "next/font/google";
 
-import "@workspace/ui/globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { ConvexClientProvider } from "@/components/convex-client-provider"
-import { cn } from "@workspace/ui/lib/utils"
+import "@workspace/ui/globals.css";
+import { cn } from "@workspace/ui/lib/utils";
+import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-})
+});
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
-  const deploymentUrl = process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL
+  const deploymentUrl =
+    process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL;
 
   return (
     <html
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        "font-sans",
+        inter.variable
+      )}
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
     >
       <body>
         <ThemeProvider>
@@ -33,5 +39,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

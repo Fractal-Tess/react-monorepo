@@ -1,0 +1,28 @@
+name: Lint Convex
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/lint-convex.yml"
+      - "biome.jsonc"
+      - "bun.lock"
+      - "package.json"
+      - "packages/convex/**"
+      - "packages/shared/**"
+  push:
+    paths:
+      - ".github/workflows/lint-convex.yml"
+      - "biome.jsonc"
+      - "bun.lock"
+      - "package.json"
+      - "packages/convex/**"
+      - "packages/shared/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run --cwd packages/convex lint

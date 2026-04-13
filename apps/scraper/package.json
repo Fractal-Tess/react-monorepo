@@ -7,6 +7,7 @@
     "run": "bun run ensure-venv && infisical run --path=/scraper -- uv run --project .",
     "run:dev": "bun run ensure-venv && infisical run --path=/scraper -- uv run --project . --group dev",
     "dev": "bun run run -- python -m scraper.main markdown https://example.com",
+    "lint": "bun run run:dev -- ruff check .",
     "start": "bun run run -- python -m scraper.main",
     "test": "bun run run:dev -- python -m pytest tests",
     "typecheck": "bun run run -- python -m compileall src",

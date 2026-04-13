@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "infisical run --path=/web -- next dev --hostname 0.0.0.0 --turbopack",
     "build": "infisical run --path=/web -- next build",
+    "lint": "bunx ultracite check .",
     "start": "infisical run --path=/web -- next start",
     "test": "playwright test",
     "typecheck": "infisical run --path=/web -- tsc --noEmit"

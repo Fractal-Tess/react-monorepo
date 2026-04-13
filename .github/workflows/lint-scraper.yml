@@ -1,0 +1,23 @@
+name: Lint Scraper
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/lint-scraper.yml"
+      - "apps/scraper/**"
+  push:
+    paths:
+      - ".github/workflows/lint-scraper.yml"
+      - "apps/scraper/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v6
+      - run: bun run --cwd apps/scraper lint
