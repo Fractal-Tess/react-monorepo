@@ -8,12 +8,12 @@ test("renders the landing page with Convex-backed preview data", async ({
   await page.goto("/");
 
   await expect(
-    page.getByText("A minimal starter for apps, auth, workers, and scraping.")
+    page.getByText("A minimal starter for apps, auth, workers & scraping.")
   ).toBeVisible();
-  await expect(page.getByText("Deployment connected")).toBeVisible({
+  await expect(page.getByText("connected", { exact: true })).toBeVisible({
     timeout: 15_000,
   });
-  await expect(page.getByText("Recent scrape runs")).toBeVisible();
+  await expect(page.getByText("Recent scrapes")).toBeVisible();
   await expect(
     page.getByText("https://example.com", { exact: true })
   ).toBeVisible();
@@ -22,7 +22,7 @@ test("renders the landing page with Convex-backed preview data", async ({
 test("renders the login page", async ({ page }) => {
   await page.goto("/login");
 
-  await expect(page.getByText("Login to your account")).toBeVisible();
+  await expect(page.getByText("Sign in to your account")).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Sign in" }).first()
   ).toBeVisible();

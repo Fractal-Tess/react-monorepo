@@ -38,15 +38,15 @@ const FEATURES = [
 
 export function LandingHero({ hasConvex }: LandingHeroProps) {
   return (
-    <div className="flex flex-col gap-10 lg:gap-14">
-      <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4">
         <p className="animate-fade-up text-muted-foreground text-xs uppercase tracking-[0.35em]">
           Convex &middot; Turborepo &middot; Tailwind &middot; shadcn/ui
         </p>
-        <h1 className="max-w-4xl animate-fade-up font-heading text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.06] tracking-tight [animation-delay:80ms]">
+        <h1 className="max-w-4xl animate-fade-up font-heading text-[clamp(2rem,5vw,4rem)] leading-[1.08] tracking-tight [animation-delay:80ms]">
           A minimal starter for apps, auth, workers &amp; scraping.
         </h1>
-        <p className="max-w-xl animate-fade-up text-lg text-muted-foreground leading-relaxed [animation-delay:160ms] md:text-xl">
+        <p className="max-w-xl animate-fade-up text-base text-muted-foreground leading-relaxed [animation-delay:160ms] lg:text-lg">
           One repo for a Next.js frontend, Convex backend, Bun worker, shared
           UI, and a scraper path with a clean signed-in dashboard.
         </p>
@@ -56,7 +56,7 @@ export function LandingHero({ hasConvex }: LandingHeroProps) {
         <Link
           className={cn(
             buttonVariants({
-              className: "h-12 rounded-full px-8 text-sm",
+              className: "h-11 rounded-full px-7 text-sm",
             })
           )}
           href={hasConvex ? "/login" : "#convex-preview"}
@@ -67,7 +67,7 @@ export function LandingHero({ hasConvex }: LandingHeroProps) {
         <Link
           className={cn(
             buttonVariants({
-              className: "h-12 rounded-full px-8 text-sm",
+              className: "h-11 rounded-full px-7 text-sm",
               variant: "outline",
             })
           )}
@@ -79,7 +79,7 @@ export function LandingHero({ hasConvex }: LandingHeroProps) {
 
       <div className="grid animate-fade-up gap-px overflow-hidden rounded-2xl border bg-border/40 [animation-delay:360ms] md:grid-cols-3">
         {FEATURES.map((feature) => (
-          <div className="bg-background p-5" key={feature.label}>
+          <div className="bg-background p-4" key={feature.label}>
             <div className="flex items-center gap-3">
               <div
                 className={cn(

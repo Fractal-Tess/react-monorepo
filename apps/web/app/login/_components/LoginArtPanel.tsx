@@ -4,10 +4,10 @@ import { LineWaves } from "./LineWaves.client";
 
 export function LoginArtPanel() {
   return (
-    <section className="relative hidden overflow-hidden bg-[#060606] lg:flex lg:items-end">
+    <section className="relative hidden min-h-svh overflow-hidden bg-[#060606] lg:flex lg:items-end">
       <div className="absolute inset-0">
         <LineWaves
-          brightness={0.15}
+          brightness={0.25}
           enableMouseInteraction={false}
           warpIntensity={0.1}
         />

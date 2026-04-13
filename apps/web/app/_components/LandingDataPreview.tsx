@@ -33,17 +33,20 @@ export function LandingDataPreview({
   const previewScrapes = scrapes.slice(0, 2);
 
   return (
-    <div className="flex flex-col gap-8" id="convex-preview">
-      <div className="flex items-end justify-between gap-4">
+    <div
+      className="flex w-full flex-col gap-5 rounded-2xl border bg-card/60 p-6 backdrop-blur-sm"
+      id="convex-preview"
+    >
+      <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-muted-foreground text-xs uppercase tracking-[0.35em]">
             Convex Preview
           </p>
-          <h2 className="mt-2 font-heading text-3xl tracking-tight md:text-4xl">
-            Seeded sample data
+          <h2 className="mt-1.5 font-heading text-xl tracking-tight">
+            Sample data
           </h2>
         </div>
-        <div className="flex shrink-0 items-center gap-2.5">
+        <div className="flex shrink-0 items-center gap-2">
           <div
             className={cn(
               "h-2 w-2 rounded-full",
@@ -52,56 +55,54 @@ export function LandingDataPreview({
                 : "bg-amber-500"
             )}
           />
-          <span className="rounded-full border px-3 py-0.5 font-mono text-[0.6rem] text-muted-foreground uppercase tracking-wider">
+          <span className="rounded-full border px-2.5 py-0.5 font-mono text-[0.6rem] text-muted-foreground uppercase tracking-wider">
             {hasConvex ? "connected" : "offline"}
           </span>
         </div>
       </div>
 
       {hasConvex ? (
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
-          <div className="flex flex-col gap-4">
-            <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
-              Message
-            </h3>
-            {primaryMessage ? (
-              <div className="rounded-xl border p-5">
+        <div className="flex flex-col gap-4">
+          {primaryMessage ? (
+            <div className="space-y-1">
+              <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
+                Message
+              </h3>
+              <div className="rounded-xl border p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium capitalize">
+                  <p className="font-medium text-sm capitalize">
                     {primaryMessage.source}
                   </p>
-                  <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.6rem] uppercase">
+                  <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.55rem] uppercase">
                     {primaryMessage.source}
                   </span>
                 </div>
-                <p className="mt-3 text-muted-foreground text-sm leading-relaxed">
+                <p className="mt-2 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
                   {primaryMessage.body}
                 </p>
               </div>
-            ) : (
-              <p className="text-muted-foreground text-sm">
-                No seeded messages yet.
-              </p>
-            )}
-          </div>
+            </div>
+          ) : null}
 
-          <div className="flex flex-col gap-4">
+          <div className="space-y-1">
             <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
-              Recent Scrape Runs
+              Recent scrapes
             </h3>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               {previewScrapes.map((scrape) => (
-                <div className="rounded-xl border p-5" key={scrape._id}>
+                <div className="rounded-xl border p-4" key={scrape._id}>
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-medium capitalize">{scrape.mode}</p>
-                    <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.6rem] uppercase">
+                    <p className="font-medium text-sm capitalize">
+                      {scrape.mode}
+                    </p>
+                    <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.55rem] uppercase">
                       {scrape.mode}
                     </span>
                   </div>
-                  <p className="mt-2 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
+                  <p className="mt-1.5 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
                     {scrape.summary}
                   </p>
-                  <p className="mt-2 truncate font-mono text-[0.6rem] text-muted-foreground/70">
+                  <p className="mt-1.5 truncate font-mono text-[0.55rem] text-muted-foreground/70">
                     {scrape.url}
                   </p>
                 </div>

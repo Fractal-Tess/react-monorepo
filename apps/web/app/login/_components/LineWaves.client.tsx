@@ -1,24 +1,10 @@
+// @ts-nocheck — Third-party component from ReactBits (reactbits.dev/backgrounds/line-waves)
 "use client";
 
+import { Mesh, Program, Renderer, Triangle } from "ogl";
 import { useEffect, useRef } from "react";
 
-type LineWavesProps = {
-  brightness?: number;
-  color1?: string;
-  color2?: string;
-  color3?: string;
-  colorCycleSpeed?: number;
-  edgeFadeWidth?: number;
-  enableMouseInteraction?: boolean;
-  innerLineCount?: number;
-  mouseInfluence?: number;
-  outerLineCount?: number;
-  rotation?: number;
-  speed?: number;
-  warpIntensity?: number;
-};
-
-function hexToVec3(hex: string): [number, number, number] {
+function hexToVec3(hex) {
   const h = hex.replace("#", "");
   return [
     Number.parseInt(h.slice(0, 2), 16) / 255,
@@ -27,7 +13,7 @@ function hexToVec3(hex: string): [number, number, number] {
   ];
 }
 
-const VERTEX_SHADER = `
+const vertexShader = `
 attribute vec2 uv;
 attribute vec2 position;
 varying vec2 vUv;
@@ -37,7 +23,7 @@ void main() {
 }
 `;
 
-const FRAGMENT_SHADER = `
+const fragmentShader = `
 precision highp float;
 
 uniform float uTime;
@@ -147,174 +133,144 @@ void main() {
 `;
 
 export function LineWaves({
+  speed = 0.3,
+  innerLineCount = 32.0,
+  outerLineCount = 36.0,
+  warpIntensity = 1.0,
+  rotation = -45,
+  edgeFadeWidth = 0.0,
+  colorCycleSpeed = 1.0,
   brightness = 0.2,
   color1 = "#ffffff",
   color2 = "#ffffff",
   color3 = "#ffffff",
-  colorCycleSpeed = 1.0,
-  edgeFadeWidth = 0.0,
   enableMouseInteraction = true,
-  innerLineCount = 32.0,
   mouseInfluence = 2.0,
-  outerLineCount = 36.0,
-  rotation = -45,
-  speed = 0.3,
-  warpIntensity = 1.0,
-}: LineWavesProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+}) {
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
+    if (!containerRef.current) {
       return;
     }
+    const container = containerRef.current;
+    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
 
-    let cancelled = false;
-    let frameId = 0;
-    let teardown: (() => void) | undefined;
+    let program: Program | null = null;
+    const currentMouse = [0.5, 0.5];
+    let targetMouse = [0.5, 0.5];
 
-    import("ogl").then(
-      ({ Renderer, Program, Mesh, Triangle }: typeof import("ogl")) => {
-        if (cancelled || !containerRef.current) {
-          return;
-        }
+    function handleMouseMove(e) {
+      const rect = gl.canvas.getBoundingClientRect();
+      targetMouse = [
+        (e.clientX - rect.left) / rect.width,
+        1.0 - (e.clientY - rect.top) / rect.height,
+      ];
+    }
 
-        const renderer = new Renderer({
-          alpha: true,
-          premultipliedAlpha: false,
-        });
-        const gl = renderer.gl;
-        gl.clearColor(0, 0, 0, 0);
+    function handleMouseLeave() {
+      targetMouse = [0.5, 0.5];
+    }
 
-        let mx = 0.5;
-        let my = 0.5;
-        let tx = 0.5;
-        let ty = 0.5;
+    function resize() {
+      renderer.setSize(container.offsetWidth, container.offsetHeight);
+      if (program) {
+        program.uniforms.uResolution.value = [
+          gl.canvas.width,
+          gl.canvas.height,
+          gl.canvas.width / gl.canvas.height,
+        ];
+      }
+    }
+    window.addEventListener("resize", resize);
+    resize();
 
-        function handleMouseMove(e: MouseEvent) {
-          const rect = (gl.canvas as HTMLCanvasElement).getBoundingClientRect();
-          tx = (e.clientX - rect.left) / rect.width;
-          ty = 1.0 - (e.clientY - rect.top) / rect.height;
-        }
-
-        function handleMouseLeave() {
-          tx = 0.5;
-          ty = 0.5;
-        }
-
-        const rotationRad = (rotation * Math.PI) / 180;
-
-        const program = new Program(gl, {
-          vertex: VERTEX_SHADER,
-          fragment: FRAGMENT_SHADER,
-          uniforms: {
-            uTime: { value: 0 },
-            uResolution: {
-              value: [
-                gl.canvas.width,
-                gl.canvas.height,
-                gl.canvas.width / gl.canvas.height,
-              ],
-            },
-            uSpeed: { value: speed },
-            uInnerLines: { value: innerLineCount },
-            uOuterLines: { value: outerLineCount },
-            uWarpIntensity: { value: warpIntensity },
-            uRotation: { value: rotationRad },
-            uEdgeFadeWidth: { value: edgeFadeWidth },
-            uColorCycleSpeed: { value: colorCycleSpeed },
-            uBrightness: { value: brightness },
-            uColor1: { value: hexToVec3(color1) },
-            uColor2: { value: hexToVec3(color2) },
-            uColor3: { value: hexToVec3(color3) },
-            uMouse: { value: new Float32Array([0.5, 0.5]) },
-            uMouseInfluence: { value: mouseInfluence },
-            uEnableMouse: { value: enableMouseInteraction },
-          },
-        });
-
-        function resize() {
-          const el = containerRef.current;
-          if (!el) {
-            return;
-          }
-          renderer.setSize(el.offsetWidth, el.offsetHeight);
-          program.uniforms.uResolution.value = [
+    const geometry = new Triangle(gl);
+    const rotationRad = (rotation * Math.PI) / 180;
+    program = new Program(gl, {
+      vertex: vertexShader,
+      fragment: fragmentShader,
+      uniforms: {
+        uTime: { value: 0 },
+        uResolution: {
+          value: [
             gl.canvas.width,
             gl.canvas.height,
             gl.canvas.width / gl.canvas.height,
-          ];
-        }
+          ],
+        },
+        uSpeed: { value: speed },
+        uInnerLines: { value: innerLineCount },
+        uOuterLines: { value: outerLineCount },
+        uWarpIntensity: { value: warpIntensity },
+        uRotation: { value: rotationRad },
+        uEdgeFadeWidth: { value: edgeFadeWidth },
+        uColorCycleSpeed: { value: colorCycleSpeed },
+        uBrightness: { value: brightness },
+        uColor1: { value: hexToVec3(color1) },
+        uColor2: { value: hexToVec3(color2) },
+        uColor3: { value: hexToVec3(color3) },
+        uMouse: { value: new Float32Array([0.5, 0.5]) },
+        uMouseInfluence: { value: mouseInfluence },
+        uEnableMouse: { value: enableMouseInteraction },
+      },
+    });
 
-        window.addEventListener("resize", resize);
-        resize();
+    const mesh = new Mesh(gl, { geometry, program });
+    container.appendChild(gl.canvas);
 
-        const geometry = new Triangle(gl);
-        const mesh = new Mesh(gl, { geometry, program });
+    if (enableMouseInteraction) {
+      gl.canvas.addEventListener("mousemove", handleMouseMove);
+      gl.canvas.addEventListener("mouseleave", handleMouseLeave);
+    }
 
-        const canvas = gl.canvas as HTMLCanvasElement;
-        canvas.style.display = "block";
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-        containerRef.current?.appendChild(canvas);
+    let animationFrameId = 0;
 
-        if (enableMouseInteraction) {
-          canvas.addEventListener("mousemove", handleMouseMove);
-          canvas.addEventListener("mouseleave", handleMouseLeave);
-        }
+    function update(time) {
+      animationFrameId = requestAnimationFrame(update);
+      program.uniforms.uTime.value = time * 0.001;
 
-        function update(time: number) {
-          frameId = requestAnimationFrame(update);
-          program.uniforms.uTime.value = time * 0.001;
-
-          const mv = program.uniforms.uMouse.value as Float32Array;
-          if (enableMouseInteraction) {
-            mx += 0.05 * (tx - mx);
-            my += 0.05 * (ty - my);
-            mv.set([mx, my]);
-          } else {
-            mv.set([0.5, 0.5]);
-          }
-
-          renderer.render({ scene: mesh });
-        }
-
-        frameId = requestAnimationFrame(update);
-
-        teardown = () => {
-          cancelAnimationFrame(frameId);
-          window.removeEventListener("resize", resize);
-          if (enableMouseInteraction) {
-            canvas.removeEventListener("mousemove", handleMouseMove);
-            canvas.removeEventListener("mouseleave", handleMouseLeave);
-          }
-          if (canvas.parentNode) {
-            canvas.parentNode.removeChild(canvas);
-          }
-          gl.getExtension("WEBGL_lose_context")?.loseContext();
-        };
+      if (enableMouseInteraction) {
+        currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
+        currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
+        program.uniforms.uMouse.value[0] = currentMouse[0];
+        program.uniforms.uMouse.value[1] = currentMouse[1];
+      } else {
+        program.uniforms.uMouse.value[0] = 0.5;
+        program.uniforms.uMouse.value[1] = 0.5;
       }
-    );
+
+      renderer.render({ scene: mesh });
+    }
+    animationFrameId = requestAnimationFrame(update);
 
     return () => {
-      cancelled = true;
-      teardown?.();
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", resize);
+      if (enableMouseInteraction) {
+        gl.canvas.removeEventListener("mousemove", handleMouseMove);
+        gl.canvas.removeEventListener("mouseleave", handleMouseLeave);
+      }
+      container.removeChild(gl.canvas);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, [
+    speed,
+    innerLineCount,
+    outerLineCount,
+    warpIntensity,
+    rotation,
+    edgeFadeWidth,
+    colorCycleSpeed,
     brightness,
     color1,
     color2,
     color3,
-    colorCycleSpeed,
-    edgeFadeWidth,
     enableMouseInteraction,
-    innerLineCount,
     mouseInfluence,
-    outerLineCount,
-    rotation,
-    speed,
-    warpIntensity,
   ]);
 
-  return <div className="h-full w-full" ref={containerRef} />;
+  return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
 }

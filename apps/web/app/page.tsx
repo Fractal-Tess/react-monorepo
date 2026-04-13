@@ -60,8 +60,8 @@ export default async function Page() {
   const { messages, scrapes } = await loadHomepageData(deploymentUrl);
 
   return (
-    <main className="relative min-h-svh">
-      <nav className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background/80 px-6 backdrop-blur-lg md:px-10 lg:px-12">
+    <main className="flex h-svh flex-col overflow-hidden">
+      <nav className="z-30 flex h-14 shrink-0 items-center justify-between border-b bg-background/80 px-6 backdrop-blur-lg md:px-10 lg:px-12">
         <Link className="font-heading text-lg tracking-tight" href="/">
           React Monorepo
         </Link>
@@ -81,7 +81,7 @@ export default async function Page() {
         </div>
       </nav>
 
-      <section className="relative flex min-h-[calc(100svh-3.5rem)] items-center overflow-hidden">
+      <section className="relative flex min-h-0 flex-1 overflow-hidden">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
@@ -90,18 +90,17 @@ export default async function Page() {
           <div className="absolute right-[-10%] -bottom-[10%] h-[30rem] w-[30rem] rounded-full bg-teal-400/[0.03] blur-[120px]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-25 [mask-image:radial-gradient(ellipse_70%_50%_at_50%_40%,black,transparent)]" />
         </div>
-        <div className="relative mx-auto w-full max-w-5xl px-6 py-16 md:px-10 lg:px-12">
-          <LandingHero hasConvex={Boolean(deploymentUrl)} />
-        </div>
-      </section>
-
-      <section className="border-t">
-        <div className="mx-auto w-full max-w-5xl px-6 py-20 md:px-10 lg:px-12">
-          <LandingDataPreview
-            hasConvex={Boolean(deploymentUrl)}
-            messages={messages}
-            scrapes={scrapes}
-          />
+        <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-6 py-8 md:px-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(20rem,26rem)] lg:px-12">
+          <div className="flex items-center">
+            <LandingHero hasConvex={Boolean(deploymentUrl)} />
+          </div>
+          <div className="hidden items-center lg:flex">
+            <LandingDataPreview
+              hasConvex={Boolean(deploymentUrl)}
+              messages={messages}
+              scrapes={scrapes}
+            />
+          </div>
         </div>
       </section>
     </main>
