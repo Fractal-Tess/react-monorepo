@@ -24,6 +24,28 @@ function getBaseUrl() {
   return process.env.SITE_URL ?? DEFAULT_LOCAL_SITE_URL;
 }
 
+function getAllowedHosts() {
+  const fallbackUrl = getBaseUrl();
+  const hosts = new Set<string>();
+  const candidates = [fallbackUrl, ...getTrustedOrigins()];
+
+  for (const candidate of candidates) {
+    if (!candidate) {
+      continue;
+    }
+
+    try {
+      const url = new URL(candidate);
+      hosts.add(url.hostname);
+      hosts.add(url.host);
+    } catch {
+      hosts.add(candidate);
+    }
+  }
+
+  return [...hosts];
+}
+
 function getBetterAuthSecret() {
   return process.env.BETTER_AUTH_SECRET ?? DEFAULT_LOCAL_AUTH_SECRET;
 }
@@ -49,7 +71,11 @@ export const authComponent = createClient<DataModel, typeof authSchema>(
 
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
   return {
-    baseURL: getBaseUrl(),
+    baseURL: {
+      allowedHosts: getAllowedHosts(),
+      fallback: getBaseUrl(),
+      protocol: "http",
+    },
     secret: getBetterAuthSecret(),
     trustedOrigins: getTrustedOrigins(),
     database: authComponent.adapter(ctx),

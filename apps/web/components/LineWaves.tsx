@@ -192,7 +192,13 @@ export default function LineWaves({
       }
 
       function resize() {
-        const { offsetHeight, offsetWidth } = container;
+        const currentContainer = containerRef.current;
+
+        if (!currentContainer) {
+          return;
+        }
+
+        const { offsetHeight, offsetWidth } = currentContainer;
         renderer.setSize(offsetWidth, offsetHeight);
         if (program) {
           program.uniforms.uResolution.value = [

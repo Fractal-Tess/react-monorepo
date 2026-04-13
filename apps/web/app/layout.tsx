@@ -27,7 +27,7 @@ export default async function RootLayout({
   let token: string | null = null;
 
   try {
-    token = await getToken();
+    token = (await getToken()) ?? null;
   } catch {
     token = null;
   }

@@ -3,7 +3,7 @@ import { ConvexHttpClient } from "convex/browser";
 import { redirect } from "next/navigation";
 
 import { env } from "@/env";
-import { fetchAuthQuery, getToken } from "@/lib/auth-server";
+import { getToken } from "@/lib/auth-server";
 
 import { DashboardOverview } from "./_components/DashboardOverview";
 import { DashboardShell } from "./_components/DashboardShell.client";
@@ -55,11 +55,17 @@ async function loadDashboardData(deploymentUrl?: string) {
   };
 }
 
+async function loadCurrentUser(deploymentUrl: string, token: string) {
+  const client = new ConvexHttpClient(deploymentUrl);
+  client.setAuth(token);
+  return client.query(api.auth.getCurrentUser, {});
+}
+
 export default async function Page() {
   let token: string | null = null;
 
   try {
-    token = await getToken();
+    token = (await getToken()) ?? null;
   } catch {
     token = null;
   }
@@ -71,7 +77,7 @@ export default async function Page() {
   const deploymentUrl = env.CONVEX_URL;
   const [{ messages, scrapes }, user] = await Promise.all([
     loadDashboardData(deploymentUrl),
-    fetchAuthQuery(api.auth.getCurrentUser, {}).catch(() => null),
+    loadCurrentUser(deploymentUrl, token).catch(() => null),
   ]);
 
   if (!user) {

@@ -9,7 +9,7 @@ export default async function Page() {
   let token: string | null = null;
 
   try {
-    token = await getToken();
+    token = (await getToken()) ?? null;
   } catch {
     token = null;
   }
