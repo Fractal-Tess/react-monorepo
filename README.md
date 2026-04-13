@@ -13,6 +13,8 @@ A compact full-stack workspace with a Next.js app, a local Convex backend, a Bun
 ![Infisical](https://img.shields.io/badge/secrets-Infisical-6C47FF)
 ![Nix](https://img.shields.io/badge/devshell-Nix-5277C3)
 
+![react-monorepo front page](./docs/images/frontpage.png)
+
 ## Stack
 
 - `apps/web`: Next.js app wired to Convex through Infisical.
