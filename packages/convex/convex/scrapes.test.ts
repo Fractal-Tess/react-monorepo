@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { summarizeScrapeResult } from "./scrapes";
+import { buildSampleScrapeRun, summarizeScrapeResult } from "./scrapes";
 
 describe("convex scrapes helpers", () => {
   test("normalizes whitespace in scrape summaries", () => {
@@ -14,5 +14,13 @@ describe("convex scrapes helpers", () => {
 
     expect(summary.length).toBeLessThanOrEqual(280);
     expect(summary.endsWith("…")).toBe(true);
+  });
+
+  test("builds a sample scrape run for UI seeding", () => {
+    const sample = buildSampleScrapeRun();
+
+    expect(sample.mode).toBe("css");
+    expect(sample.summary).toContain("sample scraped items");
+    expect(sample.resultJson).toContain("Mechanical keyboard");
   });
 });

@@ -9,6 +9,7 @@
  */
 
 import type * as messages from "../messages.js";
+import type * as scrapes from "../scrapes.js";
 
 import type {
   ApiFromModules,
@@ -18,6 +19,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   messages: typeof messages;
+  scrapes: typeof scrapes;
 }>;
 
 /**

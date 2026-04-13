@@ -4,10 +4,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "infisical run -- bun --watch index.ts",
-    "start": "infisical run -- bun run index.ts",
-    "test": "infisical run -- bun test",
-    "typecheck": "infisical run -- tsc --noEmit"
+    "dev": "infisical run --path=/worker -- bun --watch index.ts",
+    "start": "infisical run --path=/worker -- bun run index.ts",
+    "test": "infisical run --path=/worker -- bun test",
+    "typecheck": "infisical run --path=/worker -- tsc --noEmit"
   },
   "dependencies": {
     "@workspace/shared": "workspace:*",

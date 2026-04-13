@@ -4,11 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "infisical run -- next dev --turbopack",
-    "build": "infisical run -- next build",
-    "start": "infisical run -- next start",
-    "test": "infisical run -- vitest run",
-    "typecheck": "infisical run -- tsc --noEmit"
+    "dev": "infisical run --path=/web -- next dev --hostname 0.0.0.0 --turbopack",
+    "build": "infisical run --path=/web -- next build",
+    "start": "infisical run --path=/web -- next start",
+    "test": "playwright test",
+    "typecheck": "infisical run --path=/web -- tsc --noEmit"
   },
   "dependencies": {
     "@workspace/convex": "workspace:*",
@@ -22,15 +22,12 @@
     "react-dom": "^19.2.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4.2.2",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@workspace/typescript-config": "workspace:*",
-    "jsdom": "^29.0.2",
-    "typescript": "^6.0.2",
-    "vitest": "^4.1.4"
+    "typescript": "^6.0.2"
   }
 }

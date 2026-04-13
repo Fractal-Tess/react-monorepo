@@ -17,7 +17,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const deploymentUrl = process.env.NEXT_PUBLIC_CONVEX_URL
+  const deploymentUrl = process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL
 
   return (
     <html
