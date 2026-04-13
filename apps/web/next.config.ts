@@ -13,10 +13,10 @@ const allowedDevOrigins = [
   "127.0.0.1",
   "localhost",
   "vd.netbird.cloud",
-  ...((env.NEXT_ALLOWED_DEV_ORIGINS ?? "")
+  ...(env.NEXT_ALLOWED_DEV_ORIGINS ?? "")
     .split(",")
     .map((origin) => origin.trim())
-    .filter(Boolean)),
+    .filter(Boolean),
 ];
 
 const nextConfig: NextConfig = {

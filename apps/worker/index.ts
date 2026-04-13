@@ -1,4 +1,6 @@
+import { api } from "@workspace/convex/api";
 import { describeServiceStatus } from "@workspace/shared";
+import { ConvexHttpClient } from "convex/browser";
 import { Pool } from "pg";
 
 const DEFAULT_PORT = 4000;
@@ -17,6 +19,12 @@ export type SampleCustomer = {
 
 export type HealthPayload = {
   appName: string;
+  convex: {
+    configured: boolean;
+    connected: boolean;
+    recentMessages: number;
+    recentScrapes: number;
+  };
   environment: string;
   healthy: boolean;
   database: {
@@ -32,11 +40,19 @@ export function getServicePort(value = process.env.PORT) {
 }
 
 export function buildHealthPayload({
+  convexConfigured,
+  convexConnected,
+  recentMessages,
+  recentScrapes,
   environment,
   databaseConfigured,
   databaseConnected,
   seededCustomers,
 }: {
+  convexConfigured: boolean;
+  convexConnected: boolean;
+  recentMessages: number;
+  recentScrapes: number;
   environment: string;
   databaseConfigured: boolean;
   databaseConnected: boolean;
@@ -44,13 +60,43 @@ export function buildHealthPayload({
 }): HealthPayload {
   return {
     appName: "worker",
+    convex: {
+      configured: convexConfigured,
+      connected: convexConnected,
+      recentMessages,
+      recentScrapes,
+    },
     environment,
-    healthy: !databaseConfigured || databaseConnected,
+    healthy:
+      (!databaseConfigured || databaseConnected) &&
+      (!convexConfigured || convexConnected),
     database: {
       configured: databaseConfigured,
       connected: databaseConnected,
       seededCustomers,
     },
+  };
+}
+
+export async function fetchConvexSummary(deploymentUrl?: string) {
+  if (!deploymentUrl) {
+    return {
+      connected: false,
+      recentMessages: 0,
+      recentScrapes: 0,
+    };
+  }
+
+  const client = new ConvexHttpClient(deploymentUrl);
+  const [messages, scrapes] = await Promise.all([
+    client.query(api.messages.list, {}),
+    client.query(api.scrapes.listRecent, { limit: 4 }),
+  ]);
+
+  return {
+    connected: true,
+    recentMessages: messages.length,
+    recentScrapes: scrapes.length,
   };
 }
 
@@ -98,11 +144,21 @@ function isMissingSampleTableError(error: unknown) {
 
 export async function buildRootMessage() {
   const environment = process.env.NODE_ENV ?? "development";
-  const summary = await fetchDatabaseSummary(process.env.DATABASE_URL);
+  const [databaseSummary, convexSummary] = await Promise.all([
+    fetchDatabaseSummary(process.env.DATABASE_URL),
+    fetchConvexSummary(process.env.CONVEX_URL).catch(() => ({
+      connected: false,
+      recentMessages: 0,
+      recentScrapes: 0,
+    })),
+  ]);
+
   return describeServiceStatus({
     appName: "worker",
     environment,
-    healthy: !process.env.DATABASE_URL || summary.connected,
+    healthy:
+      (!process.env.DATABASE_URL || databaseSummary.connected) &&
+      (!process.env.CONVEX_URL || convexSummary.connected),
   });
 }
 
@@ -113,14 +169,26 @@ export function createServer() {
       const url = new URL(request.url);
       const environment = process.env.NODE_ENV ?? "development";
       const hasDatabase = Boolean(process.env.DATABASE_URL);
+      const hasConvex = Boolean(process.env.CONVEX_URL);
 
       if (url.pathname === "/health") {
-        const summary = await fetchDatabaseSummary(process.env.DATABASE_URL);
+        const [databaseSummary, convexSummary] = await Promise.all([
+          fetchDatabaseSummary(process.env.DATABASE_URL),
+          fetchConvexSummary(process.env.CONVEX_URL).catch(() => ({
+            connected: false,
+            recentMessages: 0,
+            recentScrapes: 0,
+          })),
+        ]);
         const payload = buildHealthPayload({
+          convexConfigured: hasConvex,
+          convexConnected: convexSummary.connected,
+          recentMessages: convexSummary.recentMessages,
+          recentScrapes: convexSummary.recentScrapes,
           environment,
           databaseConfigured: hasDatabase,
-          databaseConnected: summary.connected,
-          seededCustomers: summary.seededCustomers,
+          databaseConnected: databaseSummary.connected,
+          seededCustomers: databaseSummary.seededCustomers,
         });
 
         return Response.json(payload, {
@@ -133,6 +201,11 @@ export function createServer() {
         return Response.json({
           customers: summary.customers,
         });
+      }
+
+      if (url.pathname === "/convex") {
+        const summary = await fetchConvexSummary(process.env.CONVEX_URL);
+        return Response.json(summary);
       }
 
       return new Response(await buildRootMessage(), {

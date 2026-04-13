@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Renderer, Program, Mesh, Triangle } from 'ogl';
-import { useEffect, useRef, useState } from 'react';
+import { Mesh, Program, Renderer, Triangle } from "ogl";
+import { useEffect, useRef, useState } from "react";
 
 type LineWavesProps = {
   speed?: number;
@@ -20,11 +20,11 @@ type LineWavesProps = {
 };
 
 function hexToVec3(hex: string): [number, number, number] {
-  const h = hex.replace('#', '');
+  const h = hex.replace("#", "");
   return [
-    parseInt(h.slice(0, 2), 16) / 255,
-    parseInt(h.slice(2, 4), 16) / 255,
-    parseInt(h.slice(4, 6), 16) / 255
+    Number.parseInt(h.slice(0, 2), 16) / 255,
+    Number.parseInt(h.slice(2, 4), 16) / 255,
+    Number.parseInt(h.slice(4, 6), 16) / 255,
   ];
 }
 
@@ -156,32 +156,34 @@ export default function LineWaves({
   edgeFadeWidth = 0.0,
   colorCycleSpeed = 1.0,
   brightness = 0.2,
-  color1 = '#ffffff',
-  color2 = '#ffffff',
-  color3 = '#ffffff',
+  color1 = "#ffffff",
+  color2 = "#ffffff",
+  color3 = "#ffffff",
   enableMouseInteraction = true,
-  mouseInfluence = 2.0
+  mouseInfluence = 2.0,
 }: LineWavesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      return;
+    }
     try {
       const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
       const gl = renderer.gl;
       gl.clearColor(0, 0, 0, 0);
 
       let program: Program;
-      let currentMouse: [number, number] = [0.5, 0.5];
+      const currentMouse: [number, number] = [0.5, 0.5];
       let targetMouse: [number, number] = [0.5, 0.5];
 
       function handleMouseMove(e: MouseEvent) {
         const rect = gl.canvas.getBoundingClientRect();
         targetMouse = [
           (e.clientX - rect.left) / rect.width,
-          1.0 - (e.clientY - rect.top) / rect.height
+          1.0 - (e.clientY - rect.top) / rect.height,
         ];
       }
 
@@ -190,12 +192,17 @@ export default function LineWaves({
       }
 
       function resize() {
-        renderer.setSize(container!.offsetWidth, container!.offsetHeight);
+        const { offsetHeight, offsetWidth } = container;
+        renderer.setSize(offsetWidth, offsetHeight);
         if (program) {
-          program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height];
+          program.uniforms.uResolution.value = [
+            gl.canvas.width,
+            gl.canvas.height,
+            gl.canvas.width / gl.canvas.height,
+          ];
         }
       }
-      window.addEventListener('resize', resize);
+      window.addEventListener("resize", resize);
 
       resize();
 
@@ -206,7 +213,13 @@ export default function LineWaves({
         fragment: fragmentShader,
         uniforms: {
           uTime: { value: 0 },
-          uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
+          uResolution: {
+            value: [
+              gl.canvas.width,
+              gl.canvas.height,
+              gl.canvas.width / gl.canvas.height,
+            ],
+          },
           uSpeed: { value: speed },
           uInnerLines: { value: innerLineCount },
           uOuterLines: { value: outerLineCount },
@@ -220,8 +233,8 @@ export default function LineWaves({
           uColor3: { value: hexToVec3(color3) },
           uMouse: { value: new Float32Array([0.5, 0.5]) },
           uMouseInfluence: { value: mouseInfluence },
-          uEnableMouse: { value: enableMouseInteraction }
-        }
+          uEnableMouse: { value: enableMouseInteraction },
+        },
       });
 
       const mesh = new Mesh(gl, { geometry, program });
@@ -229,8 +242,8 @@ export default function LineWaves({
       container.appendChild(canvas);
 
       if (enableMouseInteraction) {
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseleave', handleMouseLeave);
+        canvas.addEventListener("mousemove", handleMouseMove);
+        canvas.addEventListener("mouseleave", handleMouseLeave);
       }
 
       let animationFrameId: number;
@@ -255,31 +268,45 @@ export default function LineWaves({
 
       return () => {
         cancelAnimationFrame(animationFrameId);
-        window.removeEventListener('resize', resize);
+        window.removeEventListener("resize", resize);
         if (enableMouseInteraction) {
-          canvas.removeEventListener('mousemove', handleMouseMove);
-          canvas.removeEventListener('mouseleave', handleMouseLeave);
+          canvas.removeEventListener("mousemove", handleMouseMove);
+          canvas.removeEventListener("mouseleave", handleMouseLeave);
         }
         if (canvas.parentNode) {
           canvas.parentNode.removeChild(canvas);
         }
-        gl.getExtension('WEBGL_lose_context')?.loseContext();
+        gl.getExtension("WEBGL_lose_context")?.loseContext();
       };
     } catch (error) {
       console.warn(
-        'LineWaves failed to initialize',
+        "LineWaves failed to initialize",
         error instanceof Error ? error.message : error
       );
       setFailed(true);
       return undefined;
     }
-  }, [speed, innerLineCount, outerLineCount, warpIntensity, rotation, edgeFadeWidth, colorCycleSpeed, brightness, color1, color2, color3, enableMouseInteraction, mouseInfluence]);
+  }, [
+    speed,
+    innerLineCount,
+    outerLineCount,
+    warpIntensity,
+    rotation,
+    edgeFadeWidth,
+    colorCycleSpeed,
+    brightness,
+    color1,
+    color2,
+    color3,
+    enableMouseInteraction,
+    mouseInfluence,
+  ]);
 
   return (
     <div
-      ref={containerRef}
       className="h-full w-full"
-      data-line-waves-fallback={failed ? 'true' : 'false'}
+      data-line-waves-fallback={failed ? "true" : "false"}
+      ref={containerRef}
     >
       {failed ? (
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(137,230,255,0.16),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(210,255,247,0.12),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0))]" />

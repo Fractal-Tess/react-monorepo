@@ -1,7 +1,11 @@
 import { describe, expect, test } from "bun:test";
 
 import { describeServiceStatus } from "@workspace/shared";
-import { buildHealthPayload, getServicePort } from "./index";
+import {
+  buildHealthPayload,
+  fetchConvexSummary,
+  getServicePort,
+} from "./index";
 
 describe("worker", () => {
   test("formats a healthy worker message", () => {
@@ -21,6 +25,10 @@ describe("worker", () => {
   test("marks the worker healthy when postgres is not configured", () => {
     expect(
       buildHealthPayload({
+        convexConfigured: false,
+        convexConnected: false,
+        recentMessages: 0,
+        recentScrapes: 0,
         environment: "test",
         databaseConfigured: false,
         databaseConnected: false,
@@ -28,6 +36,12 @@ describe("worker", () => {
       })
     ).toEqual({
       appName: "worker",
+      convex: {
+        configured: false,
+        connected: false,
+        recentMessages: 0,
+        recentScrapes: 0,
+      },
       environment: "test",
       healthy: true,
       database: {
@@ -40,5 +54,13 @@ describe("worker", () => {
 
   test("uses the configured worker port", () => {
     expect(getServicePort("4123")).toBe(4123);
+  });
+
+  test("returns a disconnected Convex summary when no deployment url is set", async () => {
+    await expect(fetchConvexSummary(undefined)).resolves.toEqual({
+      connected: false,
+      recentMessages: 0,
+      recentScrapes: 0,
+    });
   });
 });

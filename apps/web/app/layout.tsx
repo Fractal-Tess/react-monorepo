@@ -3,8 +3,8 @@ import { Geist_Mono, Roboto } from "next/font/google";
 import "@workspace/ui/globals.css";
 import { cn } from "@workspace/ui/lib/utils";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
-import { env } from "@/env";
 import { ThemeProvider } from "@/components/theme-provider";
+import { env } from "@/env";
 import { getToken } from "@/lib/auth-server";
 
 const roboto = Roboto({

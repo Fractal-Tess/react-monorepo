@@ -50,7 +50,9 @@
       "name": "@workspace/worker",
       "version": "0.1.0",
       "dependencies": {
+        "@workspace/convex": "workspace:*",
         "@workspace/shared": "workspace:*",
+        "convex": "^1.35.1",
         "pg": "^8.16.3",
       },
       "devDependencies": {
