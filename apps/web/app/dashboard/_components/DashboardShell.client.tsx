@@ -29,7 +29,7 @@ export function DashboardShell({ children, user }: DashboardShellProps) {
     <SidebarProvider>
       <DashboardSidebar user={user} />
       <SidebarInset>
-        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-background/85 px-4 backdrop-blur">
+        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur-lg">
           <SidebarTrigger className="-ml-1" />
           <Separator
             className="mr-2 data-vertical:h-4 data-vertical:self-auto"

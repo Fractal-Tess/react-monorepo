@@ -1,0 +1,68 @@
+import { createClient, type GenericCtx } from "@convex-dev/better-auth";
+import { convex } from "@convex-dev/better-auth/plugins";
+import type { BetterAuthOptions } from "better-auth";
+import { betterAuth } from "better-auth/minimal";
+import { ConvexError } from "convex/values";
+
+import { components } from "./_generated/api";
+import type { DataModel } from "./_generated/dataModel";
+import { query } from "./_generated/server";
+import authConfig from "./auth.config";
+import authSchema from "./betterAuth/schema";
+
+const DEFAULT_LOCAL_AUTH_SECRET =
+  "7VqVpUDmlFBw6VgsQIbEcXfq8Zli81fLL/FzYEa2LtI=";
+const DEFAULT_LOCAL_SITE_URL = "http://127.0.0.1:3000";
+
+function getBaseUrl() {
+  return process.env.SITE_URL ?? DEFAULT_LOCAL_SITE_URL;
+}
+
+function getBetterAuthSecret() {
+  return process.env.BETTER_AUTH_SECRET ?? DEFAULT_LOCAL_AUTH_SECRET;
+}
+
+export const authComponent = createClient<DataModel, typeof authSchema>(
+  components.betterAuth,
+  {
+    local: {
+      schema: authSchema,
+    },
+  }
+);
+
+export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
+  return {
+    baseURL: getBaseUrl(),
+    secret: getBetterAuthSecret(),
+    database: authComponent.adapter(ctx),
+    emailAndPassword: {
+      enabled: true,
+      requireEmailVerification: false,
+    },
+    plugins: [convex({ authConfig })],
+  } satisfies BetterAuthOptions;
+};
+
+export const createAuth = (ctx: GenericCtx<DataModel>) => {
+  return betterAuth(createAuthOptions(ctx));
+};
+
+export const getCurrentUser = query({
+  args: {},
+  handler: async (ctx) => {
+    try {
+      return await authComponent.getAuthUser(ctx);
+    } catch (error) {
+      if (
+        error instanceof ConvexError &&
+        typeof error.data === "string" &&
+        error.data === "Unauthenticated"
+      ) {
+        return null;
+      }
+
+      throw error;
+    }
+  },
+});

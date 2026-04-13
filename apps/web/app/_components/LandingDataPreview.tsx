@@ -3,13 +3,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@workspace/ui/components/alert";
-import { Badge } from "@workspace/ui/components/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@workspace/ui/components/card";
+import { cn } from "@workspace/ui/lib/utils";
 
 type MessagePreview = {
   _id: string;
@@ -39,68 +33,81 @@ export function LandingDataPreview({
   const previewScrapes = scrapes.slice(0, 2);
 
   return (
-    <section
-      className="flex h-full flex-col rounded-[2rem] border bg-background/84 p-6 shadow-[0_24px_90px_-50px_hsl(var(--foreground)/0.35)] backdrop-blur md:p-8"
-      id="convex-preview"
-    >
-      <div className="mb-6 flex items-center justify-between gap-4">
+    <div className="flex flex-col gap-8" id="convex-preview">
+      <div className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-muted-foreground text-sm uppercase tracking-[0.26em]">
+          <p className="text-muted-foreground text-xs uppercase tracking-[0.35em]">
             Convex Preview
           </p>
-          <h2 className="mt-2 font-semibold text-2xl tracking-tight">
+          <h2 className="mt-2 font-heading text-3xl tracking-tight md:text-4xl">
             Seeded sample data
           </h2>
         </div>
-        <Badge variant={hasConvex ? "default" : "outline"}>
-          {hasConvex ? "Deployment connected" : "Convex not configured"}
-        </Badge>
+        <div className="flex shrink-0 items-center gap-2.5">
+          <div
+            className={cn(
+              "h-2 w-2 rounded-full",
+              hasConvex
+                ? "bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)]"
+                : "bg-amber-500"
+            )}
+          />
+          <span className="rounded-full border px-3 py-0.5 font-mono text-[0.6rem] text-muted-foreground uppercase tracking-wider">
+            {hasConvex ? "connected" : "offline"}
+          </span>
+        </div>
       </div>
+
       {hasConvex ? (
-        <div className="grid flex-1 gap-4">
-          <Card className="border-border/70">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">Message</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {primaryMessage ? (
-                <Alert>
-                  <AlertTitle className="capitalize">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
+          <div className="flex flex-col gap-4">
+            <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
+              Message
+            </h3>
+            {primaryMessage ? (
+              <div className="rounded-xl border p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-medium capitalize">
                     {primaryMessage.source}
-                  </AlertTitle>
-                  <AlertDescription>{primaryMessage.body}</AlertDescription>
-                </Alert>
-              ) : (
-                <p className="text-muted-foreground text-sm">
-                  No seeded messages yet.
+                  </p>
+                  <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.6rem] uppercase">
+                    {primaryMessage.source}
+                  </span>
+                </div>
+                <p className="mt-3 text-muted-foreground text-sm leading-relaxed">
+                  {primaryMessage.body}
                 </p>
-              )}
-            </CardContent>
-          </Card>
-          <Card className="border-border/70">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">Recent scrape runs</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+              </div>
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                No seeded messages yet.
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
+              Recent Scrape Runs
+            </h3>
+            <div className="flex flex-col gap-3">
               {previewScrapes.map((scrape) => (
-                <div
-                  className="rounded-2xl border border-border/70 p-4"
-                  key={scrape._id}
-                >
+                <div className="rounded-xl border p-5" key={scrape._id}>
                   <div className="flex items-center justify-between gap-3">
                     <p className="font-medium capitalize">{scrape.mode}</p>
-                    <Badge variant="outline">{scrape.mode}</Badge>
+                    <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.6rem] uppercase">
+                      {scrape.mode}
+                    </span>
                   </div>
-                  <p className="mt-3 line-clamp-3 text-muted-foreground text-sm leading-7">
+                  <p className="mt-2 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
                     {scrape.summary}
                   </p>
-                  <p className="mt-3 truncate text-muted-foreground text-xs">
+                  <p className="mt-2 truncate font-mono text-[0.6rem] text-muted-foreground/70">
                     {scrape.url}
                   </p>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       ) : (
         <Alert>
@@ -111,6 +118,6 @@ export function LandingDataPreview({
           </AlertDescription>
         </Alert>
       )}
-    </section>
+    </div>
   );
 }

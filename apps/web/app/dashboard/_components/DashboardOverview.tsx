@@ -1,11 +1,3 @@
-import { Badge } from "@workspace/ui/components/badge";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@workspace/ui/components/card";
-
 type MessagePreview = {
   _id: string;
   body: string;
@@ -34,103 +26,111 @@ export function DashboardOverview({
   user,
 }: DashboardOverviewProps) {
   return (
-    <div className="space-y-6 p-4 md:p-6">
-      <section
-        className="grid gap-4 rounded-[2rem] border bg-[radial-gradient(circle_at_top_left,hsl(173_72%_47%/0.18),transparent_35%),radial-gradient(circle_at_bottom_right,hsl(35_95%_60%/0.14),transparent_38%),hsl(var(--background))] p-6"
-        id="snapshot"
-      >
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-muted-foreground text-sm uppercase tracking-[0.26em]">
-              Dashboard snapshot
+    <div className="space-y-8 p-5 md:p-8">
+      <section className="space-y-6" id="snapshot">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-2">
+            <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.3em]">
+              Dashboard
             </p>
-            <h1 className="mt-2 font-semibold text-3xl tracking-tight">
+            <h1 className="font-heading text-3xl tracking-tight md:text-4xl">
               Welcome back{user.name ? `, ${user.name}` : ""}.
             </h1>
-            <p className="mt-2 max-w-2xl text-muted-foreground text-sm leading-7">
-              This view combines your Better Auth session with Convex sample
-              data so the signed-in experience feels like a workspace instead of
-              a bare component demo.
+            <p className="max-w-xl text-muted-foreground text-sm leading-relaxed">
+              Your Better Auth session combined with Convex sample data — a
+              workspace view, not a bare component demo.
             </p>
           </div>
-          <Badge className="rounded-full px-4 py-1.5">Authenticated</Badge>
+          <div className="flex shrink-0 items-center gap-2 self-start rounded-full border border-emerald-500/20 bg-emerald-500/[0.06] px-3.5 py-1.5 font-medium text-[0.65rem] text-emerald-700 uppercase tracking-[0.18em] dark:border-emerald-400/20 dark:bg-emerald-400/[0.06] dark:text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-current" />
+            Authenticated
+          </div>
         </div>
+
         <div className="grid gap-4 md:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-muted-foreground text-sm">
-                Current user
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="font-semibold text-xl">
+          <div className="rounded-2xl border bg-card p-5">
+            <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.25em]">
+              Current user
+            </p>
+            <p className="mt-3 truncate font-semibold text-lg tracking-tight">
               {user.email ?? "Unknown"}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-muted-foreground text-sm">
-                Seeded messages
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="font-semibold text-xl">
+            </p>
+          </div>
+          <div className="rounded-2xl border bg-card p-5">
+            <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.25em]">
+              Seeded messages
+            </p>
+            <p className="mt-3 font-heading text-3xl tracking-tight">
               {messages.length}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-muted-foreground text-sm">
-                Recent scrapes
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="font-semibold text-xl">
+            </p>
+          </div>
+          <div className="rounded-2xl border bg-card p-5">
+            <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.25em]">
+              Recent scrapes
+            </p>
+            <p className="mt-3 font-heading text-3xl tracking-tight">
               {scrapes.length}
-            </CardContent>
-          </Card>
+            </p>
+          </div>
         </div>
       </section>
+
       <section
-        className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]"
+        className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]"
         id="recent-data"
       >
-        <Card>
-          <CardHeader>
-            <CardTitle>Latest messages</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
+        <div className="overflow-hidden rounded-2xl border bg-card">
+          <div className="border-b px-5 py-4">
+            <h2 className="font-heading text-lg tracking-tight">
+              Latest messages
+            </h2>
+          </div>
+          <div className="divide-y">
             {messages.map((message) => (
-              <div className="rounded-2xl border p-4" key={message._id}>
+              <div className="px-5 py-4" key={message._id}>
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium capitalize">{message.source}</p>
-                  <Badge variant="outline">{message.source}</Badge>
+                  <p className="font-medium text-sm capitalize">
+                    {message.source}
+                  </p>
+                  <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.6rem] uppercase">
+                    {message.source}
+                  </span>
                 </div>
-                <p className="mt-3 text-muted-foreground text-sm leading-7">
+                <p className="mt-2 text-muted-foreground text-sm leading-relaxed">
                   {message.body}
                 </p>
               </div>
             ))}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent scrape runs</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-2xl border bg-card">
+          <div className="border-b px-5 py-4">
+            <h2 className="font-heading text-lg tracking-tight">
+              Recent scrape runs
+            </h2>
+          </div>
+          <div className="divide-y">
             {scrapes.map((scrape) => (
-              <div className="rounded-2xl border p-4" key={scrape._id}>
+              <div className="px-5 py-4" key={scrape._id}>
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium capitalize">{scrape.mode}</p>
-                  <Badge variant="outline">{scrape.mode}</Badge>
+                  <p className="font-medium text-sm capitalize">
+                    {scrape.mode}
+                  </p>
+                  <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.6rem] uppercase">
+                    {scrape.mode}
+                  </span>
                 </div>
-                <p className="mt-3 text-muted-foreground text-sm leading-7">
+                <p className="mt-2 text-muted-foreground text-sm leading-relaxed">
                   {scrape.summary}
                 </p>
-                <p className="mt-3 truncate text-muted-foreground text-xs">
+                <p className="mt-2 truncate font-mono text-[0.6rem] text-muted-foreground/70">
                   {scrape.url}
                 </p>
               </div>
             ))}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </section>
     </div>
   );

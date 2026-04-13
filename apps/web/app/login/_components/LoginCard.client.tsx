@@ -90,26 +90,22 @@ export function LoginCard({ className }: { className?: string }) {
 
   return (
     <form
-      className={cn(
-        "relative overflow-hidden rounded-[2rem] border bg-background/92 p-6 shadow-[0_30px_90px_-40px_hsl(var(--foreground)/0.35)] backdrop-blur md:p-8",
-        className
-      )}
+      className={cn("rounded-3xl border bg-card p-7 md:p-9", className)}
       onSubmit={handleSubmit}
     >
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       <FieldGroup>
-        <div className="flex flex-col gap-3 text-center">
-          <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">
-            {mode === "sign-in" ? "Welcome back" : "Create your account"}
+        <div className="flex flex-col gap-2 text-center">
+          <p className="font-medium text-[0.65rem] text-muted-foreground uppercase tracking-[0.3em]">
+            {mode === "sign-in" ? "Welcome back" : "Get started"}
           </p>
-          <div>
-            <h1 className="font-semibold text-3xl tracking-tight">
-              {mode === "sign-in" ? "Login to your account" : "Get started"}
-            </h1>
-            <p className="mt-2 text-balance text-muted-foreground text-sm">
-              Use Better Auth against your Convex deployment.
-            </p>
-          </div>
+          <h1 className="font-heading text-2xl tracking-tight md:text-3xl">
+            {mode === "sign-in"
+              ? "Sign in to your account"
+              : "Create your account"}
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            Better Auth against your Convex deployment.
+          </p>
         </div>
         {error ? (
           <Alert variant="destructive">
@@ -117,7 +113,7 @@ export function LoginCard({ className }: { className?: string }) {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         ) : null}
-        <div className="grid grid-cols-2 gap-2 rounded-full bg-muted p-1">
+        <div className="grid grid-cols-2 gap-1 rounded-full border bg-muted/50 p-1">
           <Button
             className="rounded-full"
             onClick={() => setMode("sign-in")}

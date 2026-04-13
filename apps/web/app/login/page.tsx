@@ -13,14 +13,17 @@ export default async function Page() {
   }
 
   return (
-    <main className="grid min-h-svh lg:grid-cols-[minmax(0,1.1fr)_minmax(24rem,32rem)]">
-      <LoginArtPanel />
-      <section className="relative flex items-center justify-center overflow-hidden bg-background px-6 py-10 md:px-10">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+    <main className="grid min-h-svh lg:grid-cols-[minmax(24rem,32rem)_minmax(0,1.1fr)]">
+      <section className="relative flex items-center justify-center bg-background px-6 py-12 md:px-10">
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+        />
         <div className="w-full max-w-md">
           <LoginCard />
         </div>
       </section>
+      <LoginArtPanel />
     </main>
   );
 }
