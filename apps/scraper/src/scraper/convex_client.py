@@ -52,13 +52,13 @@ class ScraperConvexClient:
     ) -> object:
         normalized_payload = _normalize_payload(payload)
         result_json = json.dumps(normalized_payload, ensure_ascii=False, sort_keys=True)
-        return self._client.mutation(
-            "scrapes:record",
-            {
-                "instruction": instruction,
-                "mode": mode,
-                "resultJson": result_json,
-                "summary": summarize_payload(normalized_payload),
-                "url": url,
-            },
-        )
+        mutation_args: dict[str, object] = {
+            "mode": mode,
+            "resultJson": result_json,
+            "summary": summarize_payload(normalized_payload),
+            "url": url,
+        }
+        if instruction is not None:
+            mutation_args["instruction"] = instruction
+
+        return self._client.mutation("scrapes:record", mutation_args)

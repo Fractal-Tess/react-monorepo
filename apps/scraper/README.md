@@ -16,6 +16,27 @@ If `CONVEX_URL` is set, any mode can also persist its output with `--save-to-con
 The scraper uses the official Python `ConvexClient` and records results through the
 `scrapes:record` mutation in `packages/convex`.
 
+Personal `vllm` note:
+
+```bash
+uv tool run --from 'vllm==0.19.0' vllm serve nicklas373/Qwen3.5-9B-AWQ \
+  --port 8005 \
+  --chat-template-content-format openai \
+  --disable-fastapi-docs \
+  --dtype auto \
+  --language-model-only \
+  --default-chat-template-kwargs '{"enable_thinking": false}' \
+  --served-model-name Qwen3.5-9B-AWQ \
+  --seed 0 \
+  --quantization compressed-tensors \
+  --tokenizer Qwen/Qwen3.5-9B \
+  --trust-remote-code \
+  --max-model-len 16384 \
+  --max-num-seqs 8 \
+  --gpu-memory-utilization 0.87 \
+  --enable-prefix-caching
+```
+
 Examples:
 
 ```bash
