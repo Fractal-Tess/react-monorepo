@@ -4,6 +4,7 @@ import "@workspace/ui/globals.css";
 import { cn } from "@workspace/ui/lib/utils";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { getToken } from "@/lib/auth-server";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -12,13 +13,14 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const deploymentUrl =
     process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL;
+  const token = deploymentUrl ? await getToken() : null;
 
   return (
     <html
@@ -33,7 +35,10 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <ConvexClientProvider deploymentUrl={deploymentUrl}>
+          <ConvexClientProvider
+            deploymentUrl={deploymentUrl}
+            initialToken={token}
+          >
             {children}
           </ConvexClientProvider>
         </ThemeProvider>

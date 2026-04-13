@@ -1,0 +1,215 @@
+"use client";
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
+import { Button } from "@workspace/ui/components/button";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from "@workspace/ui/components/field";
+import { Input } from "@workspace/ui/components/input";
+import { cn } from "@workspace/ui/lib/utils";
+import { LoaderCircleIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { authClient } from "@/lib/auth-client";
+
+type AuthMode = "sign-in" | "sign-up";
+
+type FormState = {
+  email: string;
+  name: string;
+  password: string;
+};
+
+const INITIAL_FORM_STATE: FormState = {
+  email: "",
+  name: "",
+  password: "",
+};
+
+export function LoginCard({ className }: { className?: string }) {
+  const router = useRouter();
+  const [mode, setMode] = useState<AuthMode>("sign-in");
+  const [form, setForm] = useState<FormState>(INITIAL_FORM_STATE);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  let submitLabel = "Create account";
+
+  if (mode === "sign-in") {
+    submitLabel = "Sign in";
+  }
+
+  if (isSubmitting) {
+    submitLabel = "Working...";
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      if (mode === "sign-up") {
+        const result = await authClient.signUp.email({
+          email: form.email,
+          name: form.name,
+          password: form.password,
+        });
+
+        if (result.error) {
+          setError(result.error.message ?? "Unable to create an account.");
+          return;
+        }
+      } else {
+        const result = await authClient.signIn.email({
+          email: form.email,
+          password: form.password,
+        });
+
+        if (result.error) {
+          setError(result.error.message ?? "Unable to sign in.");
+          return;
+        }
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <form
+      className={cn(
+        "relative overflow-hidden rounded-[2rem] border bg-background/92 p-6 shadow-[0_30px_90px_-40px_hsl(var(--foreground)/0.35)] backdrop-blur md:p-8",
+        className
+      )}
+      onSubmit={handleSubmit}
+    >
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      <FieldGroup>
+        <div className="flex flex-col gap-3 text-center">
+          <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">
+            {mode === "sign-in" ? "Welcome back" : "Create your account"}
+          </p>
+          <div>
+            <h1 className="font-semibold text-3xl tracking-tight">
+              {mode === "sign-in" ? "Login to your account" : "Get started"}
+            </h1>
+            <p className="mt-2 text-balance text-muted-foreground text-sm">
+              Use Better Auth against your Convex deployment.
+            </p>
+          </div>
+        </div>
+        {error ? (
+          <Alert variant="destructive">
+            <AlertTitle>Auth error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        ) : null}
+        <div className="grid grid-cols-2 gap-2 rounded-full bg-muted p-1">
+          <Button
+            className="rounded-full"
+            onClick={() => setMode("sign-in")}
+            type="button"
+            variant={mode === "sign-in" ? "default" : "ghost"}
+          >
+            Sign in
+          </Button>
+          <Button
+            className="rounded-full"
+            onClick={() => setMode("sign-up")}
+            type="button"
+            variant={mode === "sign-up" ? "default" : "ghost"}
+          >
+            Create account
+          </Button>
+        </div>
+        {mode === "sign-up" ? (
+          <Field>
+            <FieldLabel htmlFor="name">Name</FieldLabel>
+            <Input
+              id="name"
+              onChange={(event) =>
+                setForm((current) => ({
+                  ...current,
+                  name: event.target.value,
+                }))
+              }
+              placeholder="Ada Lovelace"
+              required
+              value={form.name}
+            />
+          </Field>
+        ) : null}
+        <Field>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Input
+            id="email"
+            onChange={(event) =>
+              setForm((current) => ({
+                ...current,
+                email: event.target.value,
+              }))
+            }
+            placeholder="ada@example.com"
+            required
+            type="email"
+            value={form.email}
+          />
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <Input
+            id="password"
+            minLength={8}
+            onChange={(event) =>
+              setForm((current) => ({
+                ...current,
+                password: event.target.value,
+              }))
+            }
+            required
+            type="password"
+            value={form.password}
+          />
+          <FieldDescription>
+            Passwords must be at least 8 characters long.
+          </FieldDescription>
+        </Field>
+        <Field>
+          <Button
+            className="w-full rounded-full"
+            disabled={isSubmitting}
+            type="submit"
+          >
+            {isSubmitting ? (
+              <LoaderCircleIcon className="animate-spin" />
+            ) : null}
+            {submitLabel}
+          </Button>
+        </Field>
+        <FieldSeparator>Need context first?</FieldSeparator>
+        <Field>
+          <FieldDescription className="text-center">
+            Head back to the{" "}
+            <Link className="underline underline-offset-4" href="/">
+              landing page
+            </Link>{" "}
+            to review the Convex-backed preview before signing in.
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
+    </form>
+  );
+}

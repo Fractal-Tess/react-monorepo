@@ -12,6 +12,7 @@
   "linter": {
     "rules": {
       "style": {
+        "useFilenamingConvention": "off",
         "useConsistentTypeDefinitions": {
           "level": "error",
           "options": {
