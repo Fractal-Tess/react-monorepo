@@ -4,7 +4,7 @@
 
 A compact full-stack workspace with a Next.js app, a local Convex backend, a Bun worker, and a Crawl4AI scraper.
 
-[![Lint](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint.yml/badge.svg)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint.yml)
+[![Lint](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint.yml/badge.svg?branch=main&event=push)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint.yml?query=branch%3Amain+event%3Apush)
 
 ![Bun](https://img.shields.io/badge/runtime-bun-black)
 ![Convex](https://img.shields.io/badge/backend-Convex-FD5C3C)
@@ -34,8 +34,10 @@ flowchart LR
   web --> convex
   web --> ui
   web --> shared
+  worker --> convex
   worker --> shared
   scraper --> convex
+  scraper --> worker
 ```
 
 ## Quickstart
