@@ -6,7 +6,13 @@ import { LoginArtPanel } from "./_components/LoginArtPanel";
 import { LoginCard } from "./_components/LoginCard.client";
 
 export default async function Page() {
-  const token = await getToken();
+  let token: string | null = null;
+
+  try {
+    token = await getToken();
+  } catch {
+    token = null;
+  }
 
   if (token) {
     redirect("/dashboard");

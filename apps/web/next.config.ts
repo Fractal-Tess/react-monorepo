@@ -1,5 +1,8 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import type { NextConfig } from "next";
+
+import { env } from "./env";
 
 const repoRoot = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -7,24 +10,25 @@ const repoRoot = path.join(
 );
 
 const allowedDevOrigins = [
+  "127.0.0.1",
+  "localhost",
   "vd.netbird.cloud",
-  ...((process.env.NEXT_ALLOWED_DEV_ORIGINS ?? "")
+  ...((env.NEXT_ALLOWED_DEV_ORIGINS ?? "")
     .split(",")
     .map((origin) => origin.trim())
     .filter(Boolean)),
 ];
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   allowedDevOrigins,
-  turbopack: {
-    root: repoRoot,
-  },
   transpilePackages: [
     "@workspace/convex",
     "@workspace/shared",
     "@workspace/ui",
   ],
+  turbopack: {
+    root: repoRoot,
+  },
 };
 
 export default nextConfig;

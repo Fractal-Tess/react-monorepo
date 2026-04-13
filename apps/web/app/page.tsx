@@ -2,6 +2,7 @@ import { api } from "@workspace/convex/api";
 import { ConvexHttpClient } from "convex/browser";
 import Link from "next/link";
 
+import { env } from "@/env";
 import { LandingDataPreview } from "./_components/LandingDataPreview";
 import { LandingHero } from "./_components/LandingHero";
 
@@ -55,8 +56,7 @@ async function loadHomepageData(deploymentUrl?: string) {
 }
 
 export default async function Page() {
-  const deploymentUrl =
-    process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL;
+  const deploymentUrl = env.CONVEX_URL;
   const { messages, scrapes } = await loadHomepageData(deploymentUrl);
 
   return (

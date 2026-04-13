@@ -1,17 +1,9 @@
 import { convexBetterAuthNextJs } from "@convex-dev/better-auth/nextjs";
-
-function requireEnv(name: "CONVEX_SITE_URL" | "CONVEX_URL") {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Missing required auth env: ${name}`);
-  }
-
-  return value;
-}
+import { env } from "@/env";
 
 const authServer = convexBetterAuthNextJs({
-  convexSiteUrl: requireEnv("CONVEX_SITE_URL"),
-  convexUrl: requireEnv("CONVEX_URL"),
+  convexSiteUrl: env.CONVEX_SITE_URL,
+  convexUrl: env.CONVEX_URL,
 });
 
 export const handler: typeof authServer.handler = authServer.handler;

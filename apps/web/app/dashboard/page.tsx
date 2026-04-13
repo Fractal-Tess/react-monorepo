@@ -2,6 +2,7 @@ import { api } from "@workspace/convex/api";
 import { ConvexHttpClient } from "convex/browser";
 import { redirect } from "next/navigation";
 
+import { env } from "@/env";
 import { fetchAuthQuery, getToken } from "@/lib/auth-server";
 
 import { DashboardOverview } from "./_components/DashboardOverview";
@@ -55,16 +56,22 @@ async function loadDashboardData(deploymentUrl?: string) {
 }
 
 export default async function Page() {
-  const token = await getToken();
+  let token: string | null = null;
+
+  try {
+    token = await getToken();
+  } catch {
+    token = null;
+  }
+
   if (!token) {
     redirect("/login");
   }
 
-  const deploymentUrl =
-    process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL;
-  const [user, { messages, scrapes }] = await Promise.all([
-    fetchAuthQuery(api.auth.getCurrentUser, {}),
+  const deploymentUrl = env.CONVEX_URL;
+  const [{ messages, scrapes }, user] = await Promise.all([
     loadDashboardData(deploymentUrl),
+    fetchAuthQuery(api.auth.getCurrentUser, {}).catch(() => null),
   ]);
 
   if (!user) {

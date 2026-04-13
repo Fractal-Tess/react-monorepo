@@ -13,6 +13,12 @@ import authSchema from "./betterAuth/schema";
 const DEFAULT_LOCAL_AUTH_SECRET =
   "7VqVpUDmlFBw6VgsQIbEcXfq8Zli81fLL/FzYEa2LtI=";
 const DEFAULT_LOCAL_SITE_URL = "http://127.0.0.1:3000";
+const DEFAULT_TRUSTED_ORIGINS = [
+  "http://127.0.0.1:3000",
+  "http://localhost:3000",
+  "http://vd.netbird.cloud:3000",
+  "https://vd.netbird.cloud",
+] as const;
 
 function getBaseUrl() {
   return process.env.SITE_URL ?? DEFAULT_LOCAL_SITE_URL;
@@ -20,6 +26,16 @@ function getBaseUrl() {
 
 function getBetterAuthSecret() {
   return process.env.BETTER_AUTH_SECRET ?? DEFAULT_LOCAL_AUTH_SECRET;
+}
+
+function getTrustedOrigins() {
+  return [
+    ...DEFAULT_TRUSTED_ORIGINS,
+    ...(process.env.BETTER_AUTH_TRUSTED_ORIGINS ?? "")
+      .split(",")
+      .map((origin) => origin.trim())
+      .filter(Boolean),
+  ];
 }
 
 export const authComponent = createClient<DataModel, typeof authSchema>(
@@ -35,6 +51,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
   return {
     baseURL: getBaseUrl(),
     secret: getBetterAuthSecret(),
+    trustedOrigins: getTrustedOrigins(),
     database: authComponent.adapter(ctx),
     emailAndPassword: {
       enabled: true,

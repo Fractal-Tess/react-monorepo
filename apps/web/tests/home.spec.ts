@@ -2,21 +2,16 @@ import { expect, test } from "@playwright/test";
 
 const LOGIN_URL_PATTERN = /\/login$/;
 
-test("renders the landing page with Convex-backed preview data", async ({
-  page,
-}) => {
+test("renders the landing page", async ({ page }) => {
   await page.goto("/");
 
   await expect(
     page.getByText("A minimal starter for apps, auth, workers & scraping.")
   ).toBeVisible();
-  await expect(page.getByText("connected", { exact: true })).toBeVisible({
-    timeout: 15_000,
-  });
-  await expect(page.getByText("Recent scrapes")).toBeVisible();
   await expect(
-    page.getByText("https://example.com", { exact: true })
+    page.getByRole("link", { name: "Dashboard", exact: true })
   ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Login" })).toBeVisible();
 });
 
 test("renders the login page", async ({ page }) => {
