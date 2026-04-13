@@ -1,26 +1,23 @@
 "use client";
 
-import { LineWaves } from "./LineWaves.client";
+import LineWaves from "@/components/LineWaves";
 
 export function LoginArtPanel() {
   return (
-    <section className="relative hidden min-h-svh overflow-hidden bg-[#060606] lg:flex lg:items-end">
+    <section className="relative hidden min-h-svh overflow-hidden bg-[#060606] lg:block">
       <div className="absolute inset-0">
         <LineWaves
-          brightness={0.25}
+          brightness={0.55}
+          color1="#89e6ff"
+          color2="#d2fff7"
+          color3="#ffffff"
           enableMouseInteraction={false}
-          warpIntensity={0.1}
+          innerLineCount={28}
+          outerLineCount={24}
+          warpIntensity={0.16}
         />
       </div>
-      <div className="relative z-10 max-w-lg p-12">
-        <h2 className="font-heading text-4xl text-white/90 leading-tight">
-          Secure by default.
-        </h2>
-        <p className="mt-4 text-sm text-white/40 leading-relaxed">
-          Better Auth handles tokens and sessions while Convex manages your data
-          layer. One auth system across frontend and backend.
-        </p>
-      </div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(17,24,39,0.1),transparent_30%),linear-gradient(180deg,rgba(0,0,0,0.06),rgba(0,0,0,0.24))]" />
     </section>
   );
 }
