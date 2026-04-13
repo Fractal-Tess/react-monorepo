@@ -4,12 +4,13 @@
   "version": "0.1.0",
   "scripts": {
     "auth:generate": "cd convex/betterAuth && bunx @better-auth/cli generate -y",
+    "data": "infisical run --path=/convex -- convex data --deployment local",
     "dev": "infisical run --path=/convex -- convex dev --local",
-    "dashboard": "infisical run --path=/convex -- convex dashboard",
-    "logs": "infisical run --path=/convex -- convex logs",
+    "dashboard": "infisical run --path=/convex -- convex dashboard --deployment local",
+    "logs": "infisical run --path=/convex -- convex logs --deployment local",
     "lint": "bunx ultracite check .",
     "format": "bunx ultracite fix .",
-    "seed": "infisical run --path=/convex -- convex run init:seed '{}'",
+    "seed": "infisical run --path=/convex -- convex run init:seed '{}' --deployment local",
     "test": "infisical run --path=/convex -- bun test",
     "typecheck": "infisical run --path=/convex -- tsc --noEmit && infisical run --path=/convex -- tsc -p convex"
   },

@@ -4,12 +4,7 @@
 
 A compact full-stack workspace with a Next.js app, a local Convex backend, a Bun worker, and a Crawl4AI scraper.
 
-[![Lint Web](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-web.yml/badge.svg)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-web.yml)
-[![Lint Worker](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-worker.yml/badge.svg)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-worker.yml)
-[![Lint Scraper](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-scraper.yml/badge.svg)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-scraper.yml)
-[![Lint Convex](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-convex.yml/badge.svg)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-convex.yml)
-[![Lint Shared](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-shared.yml/badge.svg)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-shared.yml)
-[![Lint UI](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-ui.yml/badge.svg)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint-ui.yml)
+[![Lint](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint.yml/badge.svg)](https://github.com/Fractal-Tess/react-monorepo/actions/workflows/lint.yml)
 
 ![Bun](https://img.shields.io/badge/runtime-bun-black)
 ![Convex](https://img.shields.io/badge/backend-Convex-FD5C3C)
@@ -51,14 +46,12 @@ direnv allow
 bun run prepare
 ```
 
-Start the main pieces in separate terminals:
+Start the main pieces:
 
 ```bash
-bun run --cwd packages/convex dev
-bun run --cwd packages/convex dashboard
-bun run --cwd packages/convex seed
-bun run --cwd apps/web dev
-bun run --cwd apps/worker dev
+bun run dev
+bun run convex:dashboard
+bun run seed
 ```
 
 For the scraper, enter the Nix shell first so Playwright uses the pinned browser from the flake:
@@ -68,19 +61,33 @@ nix develop
 bun run --cwd apps/scraper dev
 ```
 
-## Infisical Paths
+If you want the scraper running too:
 
-- `/web`: `CONVEX_URL`, `CONVEX_SITE_URL`
-- `/convex`: `CONVEX_URL`, `CONVEX_SITE_URL`
-- `/worker`: `CONVEX_URL`, `CONVEX_SITE_URL`
-- `/scraper`: `CRAWL4AI_LLM_PROVIDER`, `CRAWL4AI_LLM_API_TOKEN`, `CRAWL4AI_LLM_BASE_URL`
+```bash
+bun run dev:all
+```
+
+## Environment
+
+See [docs/environment.md](./docs/environment.md).
+
+## Convex Local Data
+
+Convex recommends two ways to inspect local data:
+
+```bash
+bun run convex:dashboard
+bun run convex:data
+```
+
+Both helpers in this repo explicitly target the local deployment.
 
 ## Convex Seeding
 
-Seed the local Convex deployment after `convex dev --local` is running:
+Seed the local Convex deployment after `bun run dev` has started Convex:
 
 ```bash
-bun run --cwd packages/convex seed
+bun run seed
 ```
 
 The seed is idempotent and inserts:
@@ -90,15 +97,8 @@ The seed is idempotent and inserts:
 
 ## Linting
 
-Lint is scoped per package and each package has its own GitHub workflow badge.
-
 ```bash
-bun run --cwd apps/web lint
-bun run --cwd apps/worker lint
-bun run --cwd apps/scraper lint
-bun run --cwd packages/convex lint
-bun run --cwd packages/shared lint
-bun run --cwd packages/ui lint
+bun run lint
 ```
 
 ## UI Package
