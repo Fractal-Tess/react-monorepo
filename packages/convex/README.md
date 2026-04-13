@@ -1,18 +1,14 @@
-# Convex + TypeScript
+# convex
 
-This package provides a minimal Convex workspace setup with TypeScript.
+This package owns the Convex schema, functions, tests, and local seed command.
 
-Start by editing `convex/messages.ts` and interact with your backend from the
-dashboard or via the CLI:
+## Commands
 
-```sh
-npx convex run messages:list '{}'
+```bash
+bun run --cwd packages/convex dev
+bun run --cwd packages/convex dashboard
+bun run --cwd packages/convex seed
+bun run --cwd packages/convex test
 ```
 
-See Convex docs at https://docs.convex.dev/home
-
-## Setting up
-
-```
-npm create convex@latest -t bare
-```
+`seed` runs `convex run init:seed '{}'` against the active deployment and is idempotent.

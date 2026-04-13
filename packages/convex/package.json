@@ -4,16 +4,16 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "infisical run --path=/convex -- convex dev --local",
-    "predev": "infisical run --path=/convex -- convex dev --until-success && infisical run --path=/convex -- convex dashboard",
+    "dashboard": "infisical run --path=/convex -- convex dashboard",
     "logs": "infisical run --path=/convex -- convex logs",
     "lint": "bunx ultracite check .",
     "format": "bunx ultracite fix .",
+    "seed": "infisical run --path=/convex -- convex run init:seed '{}'",
     "test": "infisical run --path=/convex -- bun test",
     "typecheck": "infisical run --path=/convex -- tsc --noEmit && infisical run --path=/convex -- tsc -p convex"
   },
   "exports": {
-    "./api": "./convex/_generated/api.js",
-    "./messages": "./messages.ts"
+    "./api": "./convex/_generated/api.js"
   },
   "dependencies": {
     "@workspace/shared": "workspace:*",
