@@ -1,63 +1,20 @@
 import { api } from "@workspace/convex/api";
-import { ConvexHttpClient } from "convex/browser";
+import { preloadQuery } from "convex/nextjs";
 import Link from "next/link";
 
-import { env } from "@/env";
+import { getConvexSsrOptions } from "@/lib/convex-ssr";
 import { LandingDataPreview } from "./_components/LandingDataPreview";
 import { LandingHero } from "./_components/LandingHero";
 
-type MessagePreview = {
-  _id: string;
-  body: string;
-  source: string;
-};
-
-type ScrapePreview = {
-  _id: string;
-  mode: string;
-  summary: string;
-  url: string;
-};
-
-async function loadHomepageData(deploymentUrl?: string) {
-  if (!deploymentUrl) {
-    return {
-      messages: [] as MessagePreview[],
-      scrapes: [] as ScrapePreview[],
-    };
-  }
-
-  try {
-    const client = new ConvexHttpClient(deploymentUrl);
-    const [messages, scrapes] = await Promise.all([
-      client.query(api.messages.list, {}),
-      client.query(api.scrapes.listRecent, { limit: 3 }),
-    ]);
-
-    return {
-      messages: messages.map((message) => ({
-        _id: String(message._id),
-        body: message.body,
-        source: message.source,
-      })),
-      scrapes: scrapes.map((scrape) => ({
-        _id: String(scrape._id),
-        mode: scrape.mode,
-        summary: scrape.summary,
-        url: scrape.url,
-      })),
-    };
-  } catch {
-    return {
-      messages: [] as MessagePreview[],
-      scrapes: [] as ScrapePreview[],
-    };
-  }
-}
-
 export default async function Page() {
-  const deploymentUrl = env.CONVEX_URL;
-  const { messages, scrapes } = await loadHomepageData(deploymentUrl);
+  const options = getConvexSsrOptions();
+  const [preloadedMessages, preloadedScrapes] = await Promise.all([
+    preloadQuery(api.messages.list, {}, options).catch(() => null),
+    preloadQuery(api.scrapes.listRecent, { limit: 3 }, options).catch(
+      () => null
+    ),
+  ]);
+  const hasConvex = Boolean(preloadedMessages && preloadedScrapes);
 
   return (
     <main className="flex h-svh flex-col overflow-hidden">
@@ -92,13 +49,13 @@ export default async function Page() {
         </div>
         <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-6 py-8 md:px-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(20rem,26rem)] lg:px-12">
           <div className="flex items-center">
-            <LandingHero hasConvex={Boolean(deploymentUrl)} />
+            <LandingHero hasConvex={hasConvex} />
           </div>
           <div className="hidden items-center lg:flex">
             <LandingDataPreview
-              hasConvex={Boolean(deploymentUrl)}
-              messages={messages}
-              scrapes={scrapes}
+              hasConvex={hasConvex}
+              preloadedMessages={preloadedMessages}
+              preloadedScrapes={preloadedScrapes}
             />
           </div>
         </div>

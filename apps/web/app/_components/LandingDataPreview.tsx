@@ -1,36 +1,91 @@
+"use client";
+
+import type { api } from "@workspace/convex/api";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
 } from "@workspace/ui/components/alert";
 import { cn } from "@workspace/ui/lib/utils";
-
-type MessagePreview = {
-  _id: string;
-  body: string;
-  source: string;
-};
-
-type ScrapePreview = {
-  _id: string;
-  mode: string;
-  summary: string;
-  url: string;
-};
+import type { Preloaded } from "convex/react";
+import { usePreloadedQuery } from "convex/react";
 
 type LandingDataPreviewProps = {
   hasConvex: boolean;
-  messages: MessagePreview[];
-  scrapes: ScrapePreview[];
+  preloadedMessages: Preloaded<typeof api.messages.list> | null;
+  preloadedScrapes: Preloaded<typeof api.scrapes.listRecent> | null;
 };
+
+type LandingDataPreviewContentProps = {
+  preloadedMessages: Preloaded<typeof api.messages.list>;
+  preloadedScrapes: Preloaded<typeof api.scrapes.listRecent>;
+};
+
+function LandingDataPreviewContent({
+  preloadedMessages,
+  preloadedScrapes,
+}: LandingDataPreviewContentProps) {
+  const messages = usePreloadedQuery(preloadedMessages);
+  const scrapes = usePreloadedQuery(preloadedScrapes);
+  const primaryMessage = messages[0];
+  const previewScrapes = scrapes.slice(0, 2);
+
+  return (
+    <div className="flex flex-col gap-4">
+      {primaryMessage ? (
+        <div className="space-y-1">
+          <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
+            Message
+          </h3>
+          <div className="rounded-xl border p-4">
+            <div className="flex items-center justify-between gap-3">
+              <p className="font-medium text-sm capitalize">
+                {primaryMessage.source}
+              </p>
+              <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.55rem] uppercase">
+                {primaryMessage.source}
+              </span>
+            </div>
+            <p className="mt-2 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
+              {primaryMessage.body}
+            </p>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="space-y-1">
+        <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
+          Recent scrapes
+        </h3>
+        <div className="flex flex-col gap-2">
+          {previewScrapes.map((scrape) => (
+            <div className="rounded-xl border p-4" key={String(scrape._id)}>
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-medium text-sm capitalize">{scrape.mode}</p>
+                <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.55rem] uppercase">
+                  {scrape.mode}
+                </span>
+              </div>
+              <p className="mt-1.5 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
+                {scrape.summary}
+              </p>
+              <p className="mt-1.5 truncate font-mono text-[0.55rem] text-muted-foreground/70">
+                {scrape.url}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function LandingDataPreview({
   hasConvex,
-  messages,
-  scrapes,
+  preloadedMessages,
+  preloadedScrapes,
 }: LandingDataPreviewProps) {
-  const primaryMessage = messages[0];
-  const previewScrapes = scrapes.slice(0, 2);
+  const canRenderData = hasConvex && preloadedMessages && preloadedScrapes;
 
   return (
     <div
@@ -61,61 +116,17 @@ export function LandingDataPreview({
         </div>
       </div>
 
-      {hasConvex ? (
-        <div className="flex flex-col gap-4">
-          {primaryMessage ? (
-            <div className="space-y-1">
-              <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
-                Message
-              </h3>
-              <div className="rounded-xl border p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium text-sm capitalize">
-                    {primaryMessage.source}
-                  </p>
-                  <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.55rem] uppercase">
-                    {primaryMessage.source}
-                  </span>
-                </div>
-                <p className="mt-2 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
-                  {primaryMessage.body}
-                </p>
-              </div>
-            </div>
-          ) : null}
-
-          <div className="space-y-1">
-            <h3 className="font-medium text-muted-foreground text-xs uppercase tracking-[0.2em]">
-              Recent scrapes
-            </h3>
-            <div className="flex flex-col gap-2">
-              {previewScrapes.map((scrape) => (
-                <div className="rounded-xl border p-4" key={scrape._id}>
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="font-medium text-sm capitalize">
-                      {scrape.mode}
-                    </p>
-                    <span className="rounded-md bg-muted px-2 py-0.5 font-mono text-[0.55rem] uppercase">
-                      {scrape.mode}
-                    </span>
-                  </div>
-                  <p className="mt-1.5 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
-                    {scrape.summary}
-                  </p>
-                  <p className="mt-1.5 truncate font-mono text-[0.55rem] text-muted-foreground/70">
-                    {scrape.url}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      {canRenderData ? (
+        <LandingDataPreviewContent
+          preloadedMessages={preloadedMessages}
+          preloadedScrapes={preloadedScrapes}
+        />
       ) : (
         <Alert>
           <AlertTitle>Convex is not available for the landing page.</AlertTitle>
           <AlertDescription>
-            Run the app with `CONVEX_URL` or `NEXT_PUBLIC_CONVEX_URL` through
-            Infisical to show seeded sample data here.
+            Ensure the local Convex deployment is running to show seeded sample
+            data here.
           </AlertDescription>
         </Alert>
       )}

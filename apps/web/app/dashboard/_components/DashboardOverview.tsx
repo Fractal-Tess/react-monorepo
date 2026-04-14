@@ -1,19 +1,12 @@
-type MessagePreview = {
-  _id: string;
-  body: string;
-  source: string;
-};
+"use client";
 
-type ScrapePreview = {
-  _id: string;
-  mode: string;
-  summary: string;
-  url: string;
-};
+import type { api } from "@workspace/convex/api";
+import type { Preloaded } from "convex/react";
+import { usePreloadedQuery } from "convex/react";
 
 type DashboardOverviewProps = {
-  messages: MessagePreview[];
-  scrapes: ScrapePreview[];
+  preloadedMessages: Preloaded<typeof api.messages.list>;
+  preloadedScrapes: Preloaded<typeof api.scrapes.listRecent>;
   user: {
     email: string | null;
     name: string | null;
@@ -21,10 +14,13 @@ type DashboardOverviewProps = {
 };
 
 export function DashboardOverview({
-  messages,
-  scrapes,
+  preloadedMessages,
+  preloadedScrapes,
   user,
 }: DashboardOverviewProps) {
+  const messages = usePreloadedQuery(preloadedMessages);
+  const scrapes = usePreloadedQuery(preloadedScrapes);
+
   return (
     <div className="space-y-8 p-5 md:p-8">
       <section className="space-y-6" id="snapshot">
