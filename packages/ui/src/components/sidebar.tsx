@@ -31,6 +31,33 @@ const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
+function persistSidebarStateCookie(open: boolean) {
+	const cookieStore = (
+		window as Window & {
+			cookieStore?: {
+				set: (value: {
+					expires: number;
+					name: string;
+					path: string;
+					value: string;
+				}) => Promise<void>;
+			};
+		}
+	).cookieStore;
+
+	if (cookieStore) {
+		void cookieStore.set({
+			name: SIDEBAR_COOKIE_NAME,
+			path: "/",
+			value: String(open),
+			expires: Date.now() + SIDEBAR_COOKIE_MAX_AGE * 1000,
+		});
+		return;
+	}
+
+	window.localStorage.setItem(SIDEBAR_COOKIE_NAME, String(open));
+}
+
 type SidebarContextProps = {
 	state: "expanded" | "collapsed";
 	open: boolean;
@@ -72,6 +99,18 @@ function SidebarProvider({
 	// We use openProp and setOpenProp for control from outside the component.
 	const [_open, _setOpen] = React.useState(defaultOpen);
 	const open = openProp ?? _open;
+
+	React.useEffect(() => {
+		if (openProp !== undefined) {
+			return;
+		}
+		const storedState = window.localStorage.getItem(SIDEBAR_COOKIE_NAME);
+		if (storedState === null) {
+			return;
+		}
+		_setOpen(storedState === "true");
+	}, [openProp]);
+
 	const setOpen = React.useCallback(
 		(value: boolean | ((value: boolean) => boolean)) => {
 			const openState = typeof value === "function" ? value(open) : value;
@@ -81,8 +120,8 @@ function SidebarProvider({
 				_setOpen(openState);
 			}
 
-			// This sets the cookie to keep the sidebar state.
-			document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+			// Persist sidebar preference when the Cookie Store API is available.
+			persistSidebarStateCookie(openState);
 		},
 		[setOpenProp, open],
 	);

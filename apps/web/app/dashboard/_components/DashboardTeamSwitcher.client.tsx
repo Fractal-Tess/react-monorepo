@@ -16,7 +16,8 @@ import {
 } from "@workspace/ui/components/sidebar";
 import type { LucideIcon } from "lucide-react";
 import { ChevronsUpDownIcon } from "lucide-react";
-import { useState } from "react";
+
+import { useDashboardStore } from "@/stores/dashboard-store";
 
 type DashboardTeamSwitcherProps = {
   teams: ReadonlyArray<{
@@ -28,7 +29,12 @@ type DashboardTeamSwitcherProps = {
 
 export function DashboardTeamSwitcher({ teams }: DashboardTeamSwitcherProps) {
   const { isMobile } = useSidebar();
-  const [activeTeam, setActiveTeam] = useState(teams[0]);
+  const activeTeamName = useDashboardStore((state) => state.activeTeamName);
+  const setActiveTeamName = useDashboardStore(
+    (state) => state.setActiveTeamName
+  );
+  const activeTeam =
+    teams.find((team) => team.name === activeTeamName) ?? teams[0];
 
   if (!activeTeam) {
     return null;
@@ -69,7 +75,7 @@ export function DashboardTeamSwitcher({ teams }: DashboardTeamSwitcherProps) {
                 <DropdownMenuItem
                   className="gap-2 p-2"
                   key={team.name}
-                  onClick={() => setActiveTeam(team)}
+                  onClick={() => setActiveTeamName(team.name)}
                 >
                   <div className="flex size-6 items-center justify-center rounded-md border">
                     <team.icon className="size-4" />

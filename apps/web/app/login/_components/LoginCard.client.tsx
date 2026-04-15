@@ -18,30 +18,21 @@ import { cn } from "@workspace/ui/lib/utils";
 import { LoaderCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
-
-type AuthMode = "sign-in" | "sign-up";
-
-type FormState = {
-  email: string;
-  name: string;
-  password: string;
-};
-
-const INITIAL_FORM_STATE: FormState = {
-  email: "",
-  name: "",
-  password: "",
-};
+import { useAuthFormStore } from "@/stores/auth-form-store";
 
 export function LoginCard({ className }: { className?: string }) {
   const router = useRouter();
-  const [mode, setMode] = useState<AuthMode>("sign-in");
-  const [form, setForm] = useState<FormState>(INITIAL_FORM_STATE);
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const mode = useAuthFormStore((state) => state.mode);
+  const form = useAuthFormStore((state) => state.form);
+  const error = useAuthFormStore((state) => state.error);
+  const isSubmitting = useAuthFormStore((state) => state.isSubmitting);
+  const setMode = useAuthFormStore((state) => state.setMode);
+  const setField = useAuthFormStore((state) => state.setField);
+  const setError = useAuthFormStore((state) => state.setError);
+  const setIsSubmitting = useAuthFormStore((state) => state.setIsSubmitting);
+  const resetForm = useAuthFormStore((state) => state.resetForm);
   let submitLabel = "Create account";
 
   if (mode === "sign-in") {
@@ -83,6 +74,7 @@ export function LoginCard({ className }: { className?: string }) {
 
       router.push("/dashboard");
       router.refresh();
+      resetForm();
     } finally {
       setIsSubmitting(false);
     }
@@ -136,12 +128,7 @@ export function LoginCard({ className }: { className?: string }) {
             <FieldLabel htmlFor="name">Name</FieldLabel>
             <Input
               id="name"
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  name: event.target.value,
-                }))
-              }
+              onChange={(event) => setField("name", event.target.value)}
               placeholder="Ada Lovelace"
               required
               value={form.name}
@@ -152,12 +139,7 @@ export function LoginCard({ className }: { className?: string }) {
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
             id="email"
-            onChange={(event) =>
-              setForm((current) => ({
-                ...current,
-                email: event.target.value,
-              }))
-            }
+            onChange={(event) => setField("email", event.target.value)}
             placeholder="ada@example.com"
             required
             type="email"
@@ -169,12 +151,7 @@ export function LoginCard({ className }: { className?: string }) {
           <Input
             id="password"
             minLength={8}
-            onChange={(event) =>
-              setForm((current) => ({
-                ...current,
-                password: event.target.value,
-              }))
-            }
+            onChange={(event) => setField("password", event.target.value)}
             required
             type="password"
             value={form.password}

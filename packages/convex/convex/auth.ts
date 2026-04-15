@@ -15,7 +15,9 @@ const DEFAULT_LOCAL_AUTH_SECRET =
 const DEFAULT_LOCAL_SITE_URL = "http://127.0.0.1:3000";
 const DEFAULT_TRUSTED_ORIGINS = [
   "http://127.0.0.1:3000",
+  "http://127.0.0.1:3100",
   "http://localhost:3000",
+  "http://localhost:3100",
   "http://vd.netbird.cloud:3000",
   "https://vd.netbird.cloud",
 ] as const;
