@@ -18,6 +18,7 @@ A compact full-stack workspace with a Next.js app, a local Convex backend, a Bun
 ## Stack
 
 - `apps/web`: Next.js app wired to Convex through Infisical.
+- `apps/mobile`: Expo Router app using NativeWind for styling.
 - `apps/worker`: Bun service with a small HTTP health surface.
 - `apps/scraper`: Python + Crawl4AI scraper with CSS and LLM extraction modes.
 - `packages/convex`: Convex schema, functions, and the seed entrypoint.
@@ -27,6 +28,7 @@ A compact full-stack workspace with a Next.js app, a local Convex backend, a Bun
 ```mermaid
 flowchart LR
   web[apps/web]
+  mobile[apps/mobile]
   worker[apps/worker]
   scraper[apps/scraper]
   convex[packages/convex]
@@ -36,6 +38,7 @@ flowchart LR
   web --> convex
   web --> ui
   web --> shared
+  mobile --> shared
   worker --> convex
   worker --> shared
   scraper --> convex
@@ -69,6 +72,12 @@ If you want the scraper running too:
 
 ```bash
 bun run dev:all
+
+Run the mobile app:
+
+```bash
+bun run dev:mobile
+```
 ```
 
 ## Environment
