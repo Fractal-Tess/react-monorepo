@@ -44,3 +44,7 @@ __pycache__/
 
 # Direnv
 .direnv
+
+# Local agent artifacts
+.coex
+.codex
