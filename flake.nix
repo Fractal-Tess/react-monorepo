@@ -16,9 +16,9 @@
     }:
     let
       # Toggle workspace target dependencies here.
-      enableWeb = true;
-      enableMobile = true;
-      enableDesktop = true;
+      enableMobile = false;
+      enableDesktop = false;
+      enablePlaywright = false;
 
       eachSystem =
         f:
@@ -43,9 +43,11 @@
             with pkgs;
             [
               bun
+            ]
+            ++ pkgs.lib.optionals enableMobile [
               uv
             ]
-            ++ pkgs.lib.optionals enableWeb [
+            ++ pkgs.lib.optionals enablePlaywright [
               playwright-test
             ]
             ++ pkgs.lib.optionals enableMobile [
@@ -71,7 +73,7 @@
 
           shellHook = pkgs.lib.concatStringsSep "\n" (
             []
-            ++ pkgs.lib.optionals enableWeb [
+            ++ pkgs.lib.optionals enablePlaywright [
               ''
                 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
                 export PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}"
