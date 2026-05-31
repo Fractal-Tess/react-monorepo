@@ -11,7 +11,7 @@ A compact full-stack workspace with a Next.js app, a local Convex backend, a Bun
 ![Next.js](https://img.shields.io/badge/frontend-Next.js-111111)
 ![Crawl4AI](https://img.shields.io/badge/scraper-Crawl4AI-1F6FEB)
 ![Infisical](https://img.shields.io/badge/secrets-Infisical-6C47FF)
-![Nix](https://img.shields.io/badge/devshell-Nix-5277C3)
+![devenv](https://img.shields.io/badge/devenv-2.1-5277C3)
 
 ![react-monorepo front page](./docs/images/frontpage.png)
 
@@ -64,12 +64,14 @@ bun run convex:dashboard
 bun run seed
 ```
 
-For the scraper, enter the Nix shell first so Playwright uses the pinned browser from the flake:
+For the scraper, enter the devenv shell first so Playwright uses the pinned browser:
 
 ```bash
-nix develop
+devenv shell
 bun run --cwd apps/scraper dev
 ```
+
+The environment activates automatically when you `cd` into the repo if you've added `eval "$(devenv hook bash)"` to your shell config and run `devenv allow` once. Otherwise, use `devenv shell` to enter the environment.
 
 If you want the scraper running too:
 
