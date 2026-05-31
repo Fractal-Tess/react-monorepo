@@ -38,7 +38,7 @@
 
   enterShell = ''
     # Welcome banner
-    ${pkgs.figlet}/bin/figlet -f slant "repo" 2>/dev/null
+    ${pkgs.figlet}/bin/figlet -f slant "monorepo" 2>/dev/null
     d=$(tput dim 2>/dev/null || echo ""); r=$(tput sgr0 2>/dev/null || echo "")
     echo "$d"bun"$r" $(${pkgs.bun}/bin/bun --version 2>/dev/null)  "$d"python"$r" $(${pkgs.python3}/bin/python3 --version 2>/dev/null | cut -d' ' -f2)
     echo ""
