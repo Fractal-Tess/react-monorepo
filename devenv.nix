@@ -36,6 +36,13 @@
   };
 
   enterShell = ''
+    # Welcome banner
+    echo -e "\033[1;34m═══════════════════════════════════════════\033[0m"
+    echo -e "\033[1;36m  react-monorepo development shell\033[0m"
+    echo -e "\033[1;34m═══════════════════════════════════════════\033[0m"
+    echo -e "\033[2m  bun \033[0m$(${pkgs.bun}/bin/bun --version 2>/dev/null)  |  \033[2mpython \033[0m$(${pkgs.python3}/bin/python3 --version 2>/dev/null | cut -d' ' -f2)"
+    echo ""
+
     # Resolve Playwright Chromium executable path
     export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH="$(
       find ${pkgs.playwright-driver.browsers}/chromium-*/chrome-linux*/ \
