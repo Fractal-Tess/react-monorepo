@@ -23,6 +23,7 @@
 
   packages = with pkgs; [
     uv                               # Python package manager
+    figlet                           # ASCII art for welcome banner
     playwright-driver.browsers       # Playwright browsers for the scraper
   ];
 
@@ -37,10 +38,8 @@
 
   enterShell = ''
     # Welcome banner
-    c=$(tput setaf 6 2>/dev/null || echo "")
-    d=$(tput dim 2>/dev/null || echo "")
-    r=$(tput sgr0 2>/dev/null || echo "")
-    echo "$c== react-monorepo dev shell ==$r"
+    ${pkgs.figlet}/bin/figlet -f standard "react-monorepo" 2>/dev/null | ${pkgs.coreutils}/bin/head -6
+    d=$(tput dim 2>/dev/null || echo ""); r=$(tput sgr0 2>/dev/null || echo "")
     echo "$d"bun"$r" $(${pkgs.bun}/bin/bun --version 2>/dev/null)  "$d"python"$r" $(${pkgs.python3}/bin/python3 --version 2>/dev/null | cut -d' ' -f2)
     echo ""
 
