@@ -48,3 +48,6 @@ __pycache__/
 # Local agent artifacts
 .coex
 .codex
+
+# devenv
+.devenv/
