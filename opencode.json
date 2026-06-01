@@ -3,7 +3,7 @@
   "mcp": {
     "pocketbase": {
       "type": "local",
-      "command": ["bash", "apps/pocketbase/scripts/mcp.sh"],
+      "command": ["sh", "-c", "TOKEN=$(curl -s http://localhost:8090/api/collections/_superusers/auth-with-password -H 'Content-Type: application/json' -d '{\"identity\":\"vgfractal@gmail.com\",\"password\":\"5MJm45$%a*!&8Y*O6LwpIaXr\"}' | python3 -c 'import sys,json; print(json.load(sys.stdin).get(\"token\",\"\"))'); POCKETBASE_API_URL=http://localhost:8090 POCKETBASE_ADMIN_TOKEN=$TOKEN exec bunx -y pocketbase-mcp"],
       "enabled": true
     }
   }
