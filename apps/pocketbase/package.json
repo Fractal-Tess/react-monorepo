@@ -2,17 +2,24 @@
   "name": "@workspace/pocketbase",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "mkdir -p pb_data && docker compose up --build",
     "down": "docker compose down",
     "logs": "docker compose logs -f",
-    "typegen": "pocketbase-typegen --db ./pb_data/data.db --out ./pocketbase-types.ts",
+    "schema:status": "pocketbase-migrate status",
+    "schema:generate": "pocketbase-migrate generate",
+    "schema:types": "pocketbase-migrate generate-types",
     "migrate:create": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate create $*",
     "migrate:collections": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate collections",
     "migrate:up": "docker compose up --build -d && sleep 2 && docker exec pocketbase-pocketbase-1 /pb/pocketbase migrate up",
     "migrate:down": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate down"
   },
+  "dependencies": {
+    "pocketbase-zod-schema": "^0.7.1",
+    "zod": "^4.4.3"
+  },
   "devDependencies": {
-    "pocketbase-typegen": "^1.5.0"
+    "tsx": "^4.22.4"
   }
 }
