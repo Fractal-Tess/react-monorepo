@@ -18,7 +18,7 @@ export interface PostsRecord {
   content: string;
   excerpt: string;
   published: boolean;
-  status: string;
+  status: "draft" | "published" | "archived";
   views?: number;
   author: string;
   tags: string[];

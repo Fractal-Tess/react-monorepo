@@ -39,8 +39,8 @@ export const PostSchema = z.object({
   content: EditorField(),
   excerpt: TextField({ min: 0, max: 500 }),
   published: BoolField(),
-  status: SelectField({ values: ["draft", "published", "archived"] }),
-  views: NumberField({ min: 0, onlyInt: true }),
+  status: SelectField(["draft", "published", "archived"]),
+  views: NumberField({ min: 0, noDecimal: true }),
 
   // Relations
   author: RelationField({ collection: "users" }),
