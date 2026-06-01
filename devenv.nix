@@ -22,9 +22,10 @@
   #=============================================================================
 
   packages = with pkgs; [
-    uv                               # Python package manager
-    figlet                           # ASCII art for welcome banner
-    playwright-driver.browsers       # Playwright browsers for the scraper
+    uv # Python package manager
+    figlet # ASCII art for welcome banner
+    lolcat # Rainbow coloring for banner
+    playwright-driver.browsers # Playwright browsers for the scraper
   ];
 
   #=============================================================================
@@ -38,9 +39,8 @@
 
   enterShell = ''
     # Welcome banner
-    ${pkgs.figlet}/bin/figlet -f slant "monorepo" 2>/dev/null
-    d=$(tput dim 2>/dev/null || echo ""); r=$(tput sgr0 2>/dev/null || echo "")
-    echo "$d"bun"$r" $(${pkgs.bun}/bin/bun --version 2>/dev/null)  "$d"python"$r" $(${pkgs.python3}/bin/python3 --version 2>/dev/null | cut -d' ' -f2)
+    ${pkgs.figlet}/bin/figlet -f slant "monorepo" 2>/dev/null | ${pkgs.lolcat}/bin/lolcat
+    echo "bun" $(${pkgs.bun}/bin/bun --version 2>/dev/null) " python" $(${pkgs.python3}/bin/python3 --version 2>/dev/null | cut -d' ' -f2)
     echo ""
 
     # Resolve Playwright Chromium executable path
@@ -56,8 +56,6 @@
 
   scripts = {
     dev.exec = "bun run dev";
-    dev_all.exec = "bun run dev:all";
-    dev_scraper.exec = "bun run dev:scraper";
 
     build.exec = "bun run build";
     test.exec = "bun run test";
