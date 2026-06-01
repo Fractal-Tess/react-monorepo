@@ -5,6 +5,10 @@
   "scripts": {
     "dev": "mkdir -p pb_data && docker compose up --build",
     "down": "docker compose down",
-    "logs": "docker compose logs -f"
+    "logs": "docker compose logs -f",
+    "typegen": "pocketbase-typegen --db ./pb_data/data.db --out ./pocketbase-types.ts"
+  },
+  "devDependencies": {
+    "pocketbase-typegen": "^1.5.0"
   }
 }
