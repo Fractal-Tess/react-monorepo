@@ -3,23 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "infisical run -- turbo build",
-    "check": "turbo run lint",
-    "convex:data": "bun run --cwd packages/convex data",
-    "convex:dashboard": "bun run --cwd packages/convex dashboard",
     "dev": "infisical run -- turbo dev --filter=!@workspace/scraper --filter=!@workspace/mobile --filter=!@workspace/desktop",
     "dev:all": "infisical run -- turbo dev",
     "dev:desktop": "turbo dev --filter=@workspace/desktop",
     "dev:mobile": "turbo dev --filter=@workspace/mobile",
     "dev:scraper": "bun run --cwd apps/scraper dev",
-    "doctor": "bunx ultracite doctor",
-    "fix": "bunx ultracite fix packages/convex",
-    "lint": "bun run check",
-    "format": "bun run fix",
-    "prepare": "bunx lefthook install",
-    "seed": "bun run --cwd packages/convex seed",
-    "test": "infisical run -- turbo test",
-    "typecheck": "infisical run -- turbo typecheck"
+    "lint": "bunx turbo run lint",
+    "format": "bunx ultracite fix packages/convex"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",

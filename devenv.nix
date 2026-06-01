@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 
 {
   #=============================================================================
@@ -23,9 +23,6 @@
 
   packages = with pkgs; [
     uv # Python package manager
-    figlet # ASCII art for welcome banner
-    lolcat # Rainbow coloring for banner
-    playwright-driver.browsers # Playwright browsers for the scraper
   ];
 
   #=============================================================================
@@ -56,14 +53,17 @@
 
   scripts = {
     dev.exec = "bun run dev";
+    dev_all.exec = "bun run dev:all";
+    dev_scraper.exec = "bun run dev:scraper";
 
-    build.exec = "bun run build";
-    test.exec = "bun run test";
+    build.exec = "infisical run -- turbo build";
+    test.exec = "infisical run -- turbo test";
     lint.exec = "bun run lint";
-    typecheck.exec = "bun run typecheck";
+    format.exec = "bunx ultracite fix packages/convex";
+    typecheck.exec = "infisical run -- turbo typecheck";
 
-    seed.exec = "bun run seed";
-    convex_dashboard.exec = "bun run convex:dashboard";
+    seed.exec = "bun run --cwd packages/convex seed";
+    convex_dashboard.exec = "bun run --cwd packages/convex dashboard";
   };
 
   #=============================================================================
