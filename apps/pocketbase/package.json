@@ -26,7 +26,7 @@
     "migrate:collections": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate collections",
     "migrate:up": "docker compose up --build -d && sleep 2 && docker exec pocketbase-pocketbase-1 /pb/pocketbase migrate up",
     "migrate:down": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate down",
-    "serve:mcp": "docker compose up --build -d && sleep 2 && POCKETBASE_URL=http://localhost:8090 POCKETBASE_ADMIN_TOKEN=$(curl -s http://localhost:8090/api/collections/_superusers/auth-with-password -H 'Content-Type: application/json' -d '{\"identity\":\"vgfractal@gmail.com\",\"password\":\"5MJm45$%a*!&8Y*O6LwpIaXr\"}' | python3 -c 'import sys,json; print(json.load(sys.stdin).get(\"token\",\"\"))') pocketbase-mcp"
+    "serve:mcp": "bash scripts/mcp.sh"
   },
   "dependencies": {
     "pocketbase": "^0.27.0",
