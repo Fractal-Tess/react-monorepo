@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tauri dev",
+    "_dev": "tauri dev",
     "dev:web": "vite",
     "build": "tauri build",
     "build:web": "vite build",

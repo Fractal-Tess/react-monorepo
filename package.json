@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "infisical run -- turbo dev --filter=!@workspace/scraper --filter=!@workspace/mobile --filter=!@workspace/desktop",
+    "dev": "infisical run -- turbo dev",
     "dev:all": "infisical run -- turbo dev",
     "dev:desktop": "turbo dev --filter=@workspace/desktop",
     "dev:mobile": "turbo dev --filter=@workspace/mobile",
