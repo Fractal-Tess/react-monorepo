@@ -7,10 +7,10 @@
     "down": "docker compose down",
     "logs": "docker compose logs -f",
     "typegen": "pocketbase-typegen --db ./pb_data/data.db --out ./pocketbase-types.ts",
-    "migrate:create": "docker compose up --build -d && sleep 2 && docker exec pocketbase-pocketbase-1 /pb/pocketbase migrate create",
-    "migrate:collections": "docker compose up --build -d && sleep 2 && docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate collections",
+    "migrate:create": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate create $*",
+    "migrate:collections": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate collections",
     "migrate:up": "docker compose up --build -d && sleep 2 && docker exec pocketbase-pocketbase-1 /pb/pocketbase migrate up",
-    "migrate:down": "docker compose up --build -d && sleep 2 && docker exec pocketbase-pocketbase-1 /pb/pocketbase migrate down"
+    "migrate:down": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate down"
   },
   "devDependencies": {
     "pocketbase-typegen": "^1.5.0"
