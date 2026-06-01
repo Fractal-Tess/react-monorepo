@@ -1,0 +1,11 @@
+{
+  "name": "@workspace/pocketbase",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "mkdir -p pb_data && docker compose up --build -d",
+    "down": "docker compose down",
+    "logs": "docker compose logs -f",
+    "restart": "bun run down && bun run start"
+  }
+}

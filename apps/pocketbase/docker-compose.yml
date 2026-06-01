@@ -1,0 +1,16 @@
+services:
+  pocketbase:
+    build:
+      context: .
+      args:
+        PB_VERSION: 0.22.21
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./pb_data:/pb/pb_data
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8090/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
