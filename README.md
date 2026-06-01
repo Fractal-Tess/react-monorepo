@@ -22,7 +22,7 @@ A compact full-stack workspace with a Next.js app, a local Convex backend, a Bun
 - `apps/desktop`: Tauri desktop app with a React + Vite frontend.
 - `apps/worker`: Bun service with a small HTTP health surface.
 - `apps/scraper`: Python + Crawl4AI scraper with CSS and LLM extraction modes.
-- `packages/convex`: Convex schema, functions, and the seed entrypoint.
+- `apps/convex`: Convex schema, functions, and the seed entrypoint.
 - `packages/shared`: shared TypeScript helpers.
 - `packages/ui`: shared shadcn/ui component package.
 
@@ -33,7 +33,7 @@ flowchart LR
   desktop[apps/desktop]
   worker[apps/worker]
   scraper[apps/scraper]
-  convex[packages/convex]
+  convex[apps/convex]
   shared[packages/shared]
   ui[packages/ui]
 

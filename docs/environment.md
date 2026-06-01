@@ -9,7 +9,7 @@ Infisical paths in `dev`:
 
 Notes:
 
-- `apps/web`, `packages/convex`, and `apps/worker` all point at the same local Convex deployment.
+- `apps/web`, `apps/convex`, and `apps/worker` all point at the same local Convex deployment.
 - `apps/scraper` only gets the LLM settings by default. Pass `CONVEX_URL` inline if you want `--save-to-convex`.
 - Root `turbo` commands do not inject app secrets directly; each app script does that through its own `infisical run --path=...`.
 

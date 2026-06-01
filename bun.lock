@@ -13,6 +13,22 @@
         "ultracite": "7.5.6",
       },
     },
+    "apps/convex": {
+      "name": "@workspace/convex",
+      "version": "0.1.0",
+      "dependencies": {
+        "@convex-dev/better-auth": "^0.11.4",
+        "@workspace/shared": "workspace:*",
+        "better-auth": "1.5.3",
+        "convex": "^1.35.1",
+      },
+      "devDependencies": {
+        "@better-auth/cli": "^1.4.21",
+        "@types/bun": "latest",
+        "@types/node": "^25.6.0",
+        "typescript": "^6.0.2",
+      },
+    },
     "apps/desktop": {
       "name": "@workspace/desktop",
       "version": "0.1.0",
@@ -105,22 +121,6 @@
         "@types/bun": "latest",
         "@types/pg": "^8.15.6",
         "@workspace/typescript-config": "workspace:*",
-        "typescript": "^6.0.2",
-      },
-    },
-    "packages/convex": {
-      "name": "@workspace/convex",
-      "version": "0.1.0",
-      "dependencies": {
-        "@convex-dev/better-auth": "^0.11.4",
-        "@workspace/shared": "workspace:*",
-        "better-auth": "1.5.3",
-        "convex": "^1.35.1",
-      },
-      "devDependencies": {
-        "@better-auth/cli": "^1.4.21",
-        "@types/bun": "latest",
-        "@types/node": "^25.6.0",
         "typescript": "^6.0.2",
       },
     },
@@ -940,7 +940,7 @@
 
     "@types/babel__traverse": ["@types/babel__traverse@7.28.0", "", { "dependencies": { "@babel/types": "^7.28.2" } }, "sha512-8PvcXf70gTDZBgt9ptxJ8elBeBjcLOAcOtoO/mPJjtji1+CdGbHgm77om1GrsPxsiE+uXIpNSK64UYaIwQXd4Q=="],
 
-    "@types/bun": ["@types/bun@1.3.12", "", { "dependencies": { "bun-types": "1.3.12" } }, "sha512-DBv81elK+/VSwXHDlnH3Qduw+KxkTIWi7TXkAeh24zpi5l0B2kUg9Ga3tb4nJaPcOFswflgi/yAvMVBPrxMB+A=="],
+    "@types/bun": ["@types/bun@1.3.14", "", { "dependencies": { "bun-types": "1.3.14" } }, "sha512-h1hFqFVcvAvD9j9K7ZW7vd82aSA+rTdznZa+5bwvCwqSB1jmmfLcbIWhOLx1/+boy/xmjgCs/OMUL8hRJSmnPw=="],
 
     "@types/d3-array": ["@types/d3-array@3.2.2", "", {}, "sha512-hOLWVbm7uRza0BYXpIIW5pxfrKe0W+D5lrFiAEYR+pb6w3N2SwSMaJbXdUfSEv+dT4MfHBLtn5js0LAWaO6otw=="],
 
@@ -998,7 +998,7 @@
 
     "@vitejs/plugin-react": ["@vitejs/plugin-react@5.2.0", "", { "dependencies": { "@babel/core": "^7.29.0", "@babel/plugin-transform-react-jsx-self": "^7.27.1", "@babel/plugin-transform-react-jsx-source": "^7.27.1", "@rolldown/pluginutils": "1.0.0-rc.3", "@types/babel__core": "^7.20.5", "react-refresh": "^0.18.0" }, "peerDependencies": { "vite": "^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0" } }, "sha512-YmKkfhOAi3wsB1PhJq5Scj3GXMn3WvtQ/JC0xoopuHoXSdmtdStOpFrYaT1kie2YgFBcIe64ROzMYRjCrYOdYw=="],
 
-    "@workspace/convex": ["@workspace/convex@workspace:packages/convex"],
+    "@workspace/convex": ["@workspace/convex@workspace:apps/convex"],
 
     "@workspace/desktop": ["@workspace/desktop@workspace:apps/desktop"],
 
@@ -1120,7 +1120,7 @@
 
     "buffer-from": ["buffer-from@1.1.2", "", {}, "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ=="],
 
-    "bun-types": ["bun-types@1.3.12", "", { "dependencies": { "@types/node": "*" } }, "sha512-HqOLj5PoFajAQciOMRiIZGNoKxDJSr6qigAttOX40vJuSp6DN/CxWp9s3C1Xwm4oH7ybueITwiaOcWXoYVoRkA=="],
+    "bun-types": ["bun-types@1.3.14", "", { "dependencies": { "@types/node": "*" } }, "sha512-4N0ig0fEomHt5R0KCFWjovxow98rIoRwKolrYdCcknNwMekCXRnWEUvgu5soYV8QXtVsrUD8B95MBOZGPvr6KQ=="],
 
     "bundle-name": ["bundle-name@4.1.0", "", { "dependencies": { "run-applescript": "^7.0.0" } }, "sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q=="],
 
