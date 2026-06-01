@@ -3,6 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./pocketbase-types.ts",
+      "default": "./pocketbase-types.ts"
+    },
+    "./schema/*": {
+      "types": "./schema/*.ts",
+      "default": "./schema/*.ts"
+    }
+  },
   "scripts": {
     "dev": "mkdir -p pb_data && docker compose up --build",
     "down": "docker compose down",
@@ -18,6 +28,7 @@
     "migrate:down": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate down"
   },
   "dependencies": {
+    "pocketbase": "^0.27.0",
     "pocketbase-zod-schema": "^0.7.1",
     "zod": "^4.4.3"
   },

@@ -15,6 +15,7 @@
     "@convex-dev/better-auth": "^0.12.2",
     "@t3-oss/env-nextjs": "^0.13.11",
     "@workspace/convex": "workspace:*",
+    "@workspace/pocketbase": "workspace:*",
     "@workspace/shared": "workspace:*",
     "@workspace/ui": "workspace:*",
     "better-auth": "1.6.13",
