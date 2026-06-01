@@ -6,6 +6,9 @@
     "ultracite/biome/react",
     "ultracite/biome/vitest"
   ],
+  "files": {
+    "includes": ["**", "!apps/pocketbase/pb_migrations/**", "!apps/pocketbase/pocketbase-types.ts"]
+  },
   "javascript": {
     "globals": ["Bun", "migrate", "Collection", "RecordService", "PocketBase"]
   },
