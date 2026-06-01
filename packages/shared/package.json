@@ -14,6 +14,6 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@workspace/typescript-config": "workspace:*",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   }
 }
