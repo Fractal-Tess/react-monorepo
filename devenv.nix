@@ -40,7 +40,7 @@
   enterShell = ''
     # Welcome banner
     ${pkgs.figlet}/bin/figlet -f slant "monorepo" 2>/dev/null | ${pkgs.lolcat}/bin/lolcat
-    echo "bun" $(${pkgs.bun}/bin/bun --version 2>/dev/null) " python" $(${pkgs.python3}/bin/python3 --version 2>/dev/null | cut -d' ' -f2)
+    echo "bun" $(${pkgs.bun}/bin/bun --version 2>/dev/null) " python" $(${pkgs.python3}/bin/python3 --version 2>/dev/null | cut -d' ' -f2) | ${pkgs.lolcat}/bin/lolcat
     echo ""
 
     # Resolve Playwright Chromium executable path
