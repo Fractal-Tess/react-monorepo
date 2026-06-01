@@ -7,7 +7,7 @@
     "ultracite/biome/vitest"
   ],
   "javascript": {
-    "globals": ["Bun"]
+    "globals": ["Bun", "migrate", "Collection", "RecordService", "PocketBase"]
   },
   "linter": {
     "rules": {

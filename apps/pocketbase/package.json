@@ -9,6 +9,8 @@
     "logs": "docker compose logs -f",
     "schema:status": "pocketbase-migrate status",
     "schema:generate": "pocketbase-migrate generate",
+    "lint": "ultracite check schema package.json pocketbase-migrate.config.js",
+    "format": "ultracite fix schema package.json pocketbase-migrate.config.js",
     "schema:types": "pocketbase-migrate generate-types",
     "migrate:create": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate create $*",
     "migrate:collections": "docker compose up --build -d && sleep 2 && echo y | docker exec -i pocketbase-pocketbase-1 /pb/pocketbase migrate collections",

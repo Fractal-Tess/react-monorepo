@@ -9,5 +9,7 @@ pre-commit:
         - "apps/convex/**/*.json"
         - "apps/convex/**/*.jsonc"
         - "apps/convex/**/*.css"
-      run: bun x ultracite fix apps/convex
+        - "apps/pocketbase/**/*.ts"
+        - "apps/pocketbase/**/*.tsx"
+      run: bun x ultracite fix {staged_files}
       stage_fixed: true

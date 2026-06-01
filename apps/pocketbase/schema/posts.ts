@@ -1,14 +1,14 @@
-import { z } from "zod";
 import {
-  defineCollection,
-  TextField,
-  EditorField,
   BoolField,
-  SelectField,
+  defineCollection,
+  EditorField,
+  NumberField,
   RelationField,
   RelationsField,
-  NumberField,
+  SelectField,
+  TextField,
 } from "pocketbase-zod-schema/schema";
+import { z } from "zod";
 
 // ── Tags ──────────────────────────────────────────────────────
 
