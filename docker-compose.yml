@@ -123,7 +123,7 @@ services:
   convex:
     build:
       context: .
-      dockerfile: apps/convex/Dockerfile
+      dockerfile: databases/convex/Dockerfile
     profiles: ["tools"]
     environment:
       CONVEX_DEPLOYMENT: ${CONVEX_DEPLOYMENT:-}

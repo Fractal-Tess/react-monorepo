@@ -2,14 +2,14 @@ pre-commit:
   jobs:
     - name: ultracite
       glob:
-        - "apps/convex/**/*.js"
-        - "apps/convex/**/*.jsx"
-        - "apps/convex/**/*.ts"
-        - "apps/convex/**/*.tsx"
-        - "apps/convex/**/*.json"
-        - "apps/convex/**/*.jsonc"
-        - "apps/convex/**/*.css"
-        - "apps/pocketbase/**/*.ts"
-        - "apps/pocketbase/**/*.tsx"
+        - "databases/convex/**/*.js"
+        - "databases/convex/**/*.jsx"
+        - "databases/convex/**/*.ts"
+        - "databases/convex/**/*.tsx"
+        - "databases/convex/**/*.json"
+        - "databases/convex/**/*.jsonc"
+        - "databases/convex/**/*.css"
+        - "databases/pocketbase/**/*.ts"
+        - "databases/pocketbase/**/*.tsx"
       run: bun x ultracite fix {staged_files}
       stage_fixed: true

@@ -3,7 +3,7 @@
   "mcp": {
     "pocketbase": {
       "type": "local",
-      "command": ["node", "apps/pocketbase/node_modules/pocketbase-server/build/index.js"],
+      "command": ["node", "databases/pocketbase/node_modules/pocketbase-server/build/index.js"],
       "enabled": true,
       "environment": {
         "POCKETBASE_URL": "http://localhost:8090",

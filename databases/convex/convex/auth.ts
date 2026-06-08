@@ -71,8 +71,8 @@ export const authComponent = createClient<DataModel, typeof authSchema>(
   }
 );
 
-export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
-  return {
+export const createAuthOptions = (ctx: GenericCtx<DataModel>) =>
+  ({
     baseURL: {
       allowedHosts: getAllowedHosts(),
       fallback: getBaseUrl(),
@@ -86,12 +86,10 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
       requireEmailVerification: false,
     },
     plugins: [convex({ authConfig })],
-  } satisfies BetterAuthOptions;
-};
+  }) satisfies BetterAuthOptions;
 
-export const createAuth = (ctx: GenericCtx<DataModel>) => {
-  return betterAuth(createAuthOptions(ctx));
-};
+export const createAuth = (ctx: GenericCtx<DataModel>) =>
+  betterAuth(createAuthOptions(ctx));
 
 export const getCurrentUser = query({
   args: {},

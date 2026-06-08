@@ -14,7 +14,7 @@ Modes:
 
 If `CONVEX_URL` is set, any mode can also persist its output with `--save-to-convex`.
 The scraper uses the official Python `ConvexClient` and records results through the
-`scrapes:record` mutation in `apps/convex`.
+`scrapes:record` mutation in `databases/convex`.
 
 Personal `vllm` note:
 

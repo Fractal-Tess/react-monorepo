@@ -13,9 +13,7 @@ export function buildSeedMessage(appName: string) {
 
 export const list = query({
   args: {},
-  handler: async (ctx) => {
-    return await ctx.db.query("messages").order("desc").take(10);
-  },
+  handler: async (ctx) => await ctx.db.query("messages").order("desc").take(10),
 });
 
 export const seed = mutation({

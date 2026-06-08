@@ -59,11 +59,11 @@
     build.exec = "infisical run -- turbo build";
     test.exec = "infisical run -- turbo test";
     lint.exec = "bun run lint";
-    format.exec = "bunx ultracite fix apps/convex";
+    format.exec = "bunx ultracite fix databases/convex";
     typecheck.exec = "infisical run -- turbo typecheck";
 
-    seed.exec = "bun run --cwd apps/convex seed";
-    convex_dashboard.exec = "bun run --cwd apps/convex dashboard";
+    seed.exec = "bun run --cwd databases/convex seed";
+    convex_dashboard.exec = "bun run --cwd databases/convex dashboard";
   };
 
   #=============================================================================
@@ -73,6 +73,6 @@
   processes = {
     web.exec = "bun run --cwd apps/web dev";
     worker.exec = "bun run --cwd apps/worker dev";
-    convex.exec = "bun run --cwd apps/convex dev";
+    convex.exec = "bun run --cwd databases/convex dev";
   };
 }

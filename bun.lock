@@ -13,22 +13,6 @@
         "ultracite": "7.8.1",
       },
     },
-    "apps/convex": {
-      "name": "@workspace/convex",
-      "version": "0.1.0",
-      "dependencies": {
-        "@convex-dev/better-auth": "^0.12.2",
-        "@workspace/shared": "workspace:*",
-        "better-auth": "1.6.13",
-        "convex": "^1.39.1",
-      },
-      "devDependencies": {
-        "@better-auth/cli": "^1.4.21",
-        "@types/bun": "latest",
-        "@types/node": "^25.9.1",
-        "typescript": "^6.0.3",
-      },
-    },
     "apps/desktop": {
       "name": "@workspace/desktop",
       "version": "0.1.0",
@@ -72,19 +56,6 @@
         "babel-preset-expo": "^56.0.14",
         "tailwindcss": "^4.3.0",
         "typescript": "~6.0.3",
-      },
-    },
-    "apps/pocketbase": {
-      "name": "@workspace/pocketbase",
-      "version": "0.1.0",
-      "dependencies": {
-        "pocketbase-server": "github:mrwyndham/pocketbase-mcp",
-        "pocketbase": "^0.27.0",
-        "pocketbase-zod-schema": "^0.7.1",
-        "zod": "^4.4.3",
-      },
-      "devDependencies": {
-        "tsx": "^4.22.4",
       },
     },
     "apps/scraper": {
@@ -137,6 +108,35 @@
         "@types/pg": "^8.20.0",
         "@workspace/typescript-config": "workspace:*",
         "typescript": "^6.0.3",
+      },
+    },
+    "databases/convex": {
+      "name": "@workspace/convex",
+      "version": "0.1.0",
+      "dependencies": {
+        "@convex-dev/better-auth": "^0.12.2",
+        "@workspace/shared": "workspace:*",
+        "better-auth": "1.6.13",
+        "convex": "^1.39.1",
+      },
+      "devDependencies": {
+        "@better-auth/cli": "^1.4.21",
+        "@types/bun": "latest",
+        "@types/node": "^25.9.1",
+        "typescript": "^6.0.3",
+      },
+    },
+    "databases/pocketbase": {
+      "name": "@workspace/pocketbase",
+      "version": "0.1.0",
+      "dependencies": {
+        "pocketbase": "^0.27.0",
+        "pocketbase-server": "github:mrwyndham/pocketbase-mcp",
+        "pocketbase-zod-schema": "^0.7.1",
+        "zod": "^4.4.3",
+      },
+      "devDependencies": {
+        "tsx": "^4.22.4",
       },
     },
     "packages/shared": {
@@ -963,13 +963,13 @@
 
     "@vitejs/plugin-react": ["@vitejs/plugin-react@6.0.2", "", { "dependencies": { "@rolldown/pluginutils": "^1.0.0" }, "peerDependencies": { "@rolldown/plugin-babel": "^0.1.7 || ^0.2.0", "babel-plugin-react-compiler": "^1.0.0", "vite": "^8.0.0" }, "optionalPeers": ["@rolldown/plugin-babel", "babel-plugin-react-compiler"] }, "sha512-DlSMqo4WhThw4vB8Mpn0Woe9J+Jfq1geJ61AKW0QEgLzGMNwtIMdxbDUzLxcun8W7NbJO0e2Jg/Nxm3cCSVzzg=="],
 
-    "@workspace/convex": ["@workspace/convex@workspace:apps/convex"],
+    "@workspace/convex": ["@workspace/convex@workspace:databases/convex"],
 
     "@workspace/desktop": ["@workspace/desktop@workspace:apps/desktop"],
 
     "@workspace/mobile": ["@workspace/mobile@workspace:apps/mobile"],
 
-    "@workspace/pocketbase": ["@workspace/pocketbase@workspace:apps/pocketbase"],
+    "@workspace/pocketbase": ["@workspace/pocketbase@workspace:databases/pocketbase"],
 
     "@workspace/scraper": ["@workspace/scraper@workspace:apps/scraper"],
 

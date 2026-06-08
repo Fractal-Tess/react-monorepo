@@ -7,7 +7,7 @@
     "ultracite/biome/vitest"
   ],
   "files": {
-    "includes": ["**", "!apps/pocketbase/pb_migrations/**", "!apps/pocketbase/pocketbase-types.ts"]
+    "includes": ["**", "!databases/pocketbase/pb_migrations/**", "!databases/pocketbase/pocketbase-types.ts", "!databases/convex/convex/_generated/**", "!databases/convex/convex/betterAuth/_generated/**", "!apps/desktop/src-tauri/gen/**"]
   },
   "javascript": {
     "globals": ["Bun", "migrate", "Collection", "RecordService", "PocketBase"]

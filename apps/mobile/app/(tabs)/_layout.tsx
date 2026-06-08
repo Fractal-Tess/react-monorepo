@@ -28,11 +28,7 @@ export default function TabsLayout() {
 				options={{
 					title: "Todos",
 					tabBarIcon: ({ color, size }) => (
-						<Ionicons
-							color={color}
-							name="checkmark-done-outline"
-							size={size}
-						/>
+						<Ionicons color={color} name="checkmark-done-outline" size={size} />
 					),
 				}}
 			/>

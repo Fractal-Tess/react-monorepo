@@ -290,7 +290,7 @@ export default function LineWaves({
         error instanceof Error ? error.message : error
       );
       setFailed(true);
-      return undefined;
+      return;
     }
   }, [
     speed,
