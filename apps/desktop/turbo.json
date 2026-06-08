@@ -1,0 +1,16 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "outputs": [
+        "dist/**",
+        "src-tauri/target/release/bundle/**",
+        "src-tauri/target/release/react-monorepo-desktop",
+        "src-tauri/target/release/react-monorepo-desktop.exe"
+      ]
+    },
+    "dev": {
+      "env": ["TAURI_DEV_HOST"]
+    }
+  }
+}

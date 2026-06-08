@@ -1,0 +1,14 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "lint": {
+      "passThroughEnv": ["VIRTUAL_ENV"]
+    },
+    "test": {
+      "passThroughEnv": ["VIRTUAL_ENV"]
+    },
+    "typecheck": {
+      "passThroughEnv": ["VIRTUAL_ENV"]
+    }
+  }
+}
